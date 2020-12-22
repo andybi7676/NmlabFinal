@@ -6,11 +6,12 @@ import "./Castle.sol";
 contract FarmFactory is CastleFactory {
     
     mapping (address => uint) public foodOwnerCount;
+    mapping (address => uint) public ownerFoodProduceTime;
     uint produceFoodAbility = 1;
 
     function _createFarm(uint _x, uint _y) internal {
         _createBuilding("Farm", _x, _y);
-        _produceFood(msg.sender, _x, _y);
+        _updateProduceFood(msg.sender);
     }
 
     function _startBuildFarm(address _owner, uint _x, uint _y) internal {
@@ -19,12 +20,19 @@ contract FarmFactory is CastleFactory {
         _startBuild(farmID);
     }
 
-    function _produceFood(address _owner, uint _x, uint _y) internal {
-        farmID = _getBuildingByOwner(_owner, "Farm", _x, _y);
-        while (now > buildings[farmID].producetime.add(1 hours)) {
-            buildings[farmID].producetime = buildings[farmID].produceTime.add(1 hours);
-            foodOwnerCount[_owner] = foodOwnerCount[_owner].add(buildings[mineID].level * produceFoodAbility );
-        } 
+    function _updateProduceFood(address _owner) internal {
+        farms = _getSpecificBuildingByOwner(_owner, "Farm");
+        if (farms.length > 1){
+            while (now > ownerFoodProduceTime[_owner].add(10 seconds)) {
+                for (uint i = 1; i < mines.length; i++) {
+                    foodOwnerCount[_owner] = foodOwnerCount[_owner].add(buildings[farms[i]].level * produceFoodAbility );
+                }
+                ownerFoodProduceTime[_owner] = ownerFoodProduceTime[_owner].add(10 seconds);
+            }
+        }
+        else {
+            ownerFoodProduceTime[_owner] = now;
+        }
     }
 
 }

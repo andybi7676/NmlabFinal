@@ -24,21 +24,24 @@ contract BuildingFactory {
         buildingToOwner[id] = msg.sender;
     }
 
-    function _startBuild(address _owner, uint _x, uint _y) internal {
+    function _startBuild(address _owner, uint _x, uint _y) internal returns(uint){
         buildingID = _getBuildingByOwner(_owner, _x, _y);
         if (buildings[buildingID].name != "Castle") {
             require(castelLevel[_owner] >= buildings[buildingID].level.add(1));
         }
         ownerBuildingId[_owner] = buildingID;
         ownerStartBuildTime[_owner] = now;
+        return buildings[buildingID].level * buildTimeNeed;
     }
     
-    function _updateBuild(address _owner) internal {
+    function _updateBuild(address _owner) internal returns(bool){
         buildingID = ownerBuildingId[_owner];
         if (ownerStartBuildTime[_owner] != 0 && now >= ownerStartBuildTime[_owner] + buildings[buildingID].level * buildTimeNeed) {
             buildings[buildingID].level = buildings[buildingID].level.add(1);
             ownerStartBuildTime[_owner] = 0;
+            return true;
         }
+        return false;
     }
 
     function _getBuildingByOwner(address _owner, uint _placeX, uint _placeY) internal view returns(uint memory) {
@@ -61,7 +64,7 @@ contract BuildingFactory {
         return result;
     }
 
-    function _getSpecificBuildingByOwner(address _owner, string _name) internal returns(uint[] memory) {
+    function _getSpecificBuildingByOwner(address _owner, string _name) internal view returns(uint[] memory) {
         uint[] memory result;
         result.push(0);
         for (uint i = 0; i < buildings.length; i++) {
