@@ -1,8 +1,9 @@
 pragma solidity >=0.6.0 <0.8.0;
 
 import "./SafeMath.sol";
+import "./Account.sol";
 
-contract BuildingFactory {
+contract BuildingFactory is Account {
     
     struct Building {
         string name;

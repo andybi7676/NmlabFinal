@@ -5,7 +5,6 @@ import "./Castle.sol";
 
 contract MineFactory is CastleFactory {
     
-    mapping (address => uint) public oreOwnerCount;
     mapping (address => uint) public ownerOreProduceTime;
     uint produceOreAbility = 1;
 

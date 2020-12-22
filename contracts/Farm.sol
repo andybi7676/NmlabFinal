@@ -5,7 +5,6 @@ import "./Castle.sol";
 
 contract FarmFactory is CastleFactory {
     
-    mapping (address => uint) public foodOwnerCount;
     mapping (address => uint) public ownerFoodProduceTime;
     uint produceFoodAbility = 1;
 
