@@ -17,5 +17,4 @@ contract Produce is Quarry, Mine, Farm, Manor, Sawmill {
         _updateProduceWood(_owner);
     }
 
-
 }
