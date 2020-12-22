@@ -14,10 +14,10 @@ contract Soldier {
     event ChangeInfantrNum(uint num);
     event ChangePikemenNum(uint num);
     event ChangeArcherNum(uint num);
-    event ChangeCavalrylevel(uint level);
-    event ChangeInfantrlevel(uint level);
-    event ChangePikemenlevel(uint level);
-    event ChangeArcherlevel(uint level);
+    event ChangeCavalrylevel(uint8 level);
+    event ChangeInfantrlevel(uint8 level);
+    event ChangePikemenlevel(uint8 level);
+    event ChangeArcherlevel(uint8 level);
 
     mapping (address => uint) public food;
     mapping (address => uint) public wood;
@@ -116,10 +116,20 @@ contract Soldier {
         }
     }
 
-    function upgradeCavalry() public{}
-    function upgradeInfantry() public{}
-    function upgradePikemen() public{}
+    function upgradeCavalry() public{
+        levelOfCavalry[mag.sender]++;
+        ChangeCavalrylevel(levelOfCavalry[msg.sender]);
+    }
+    function upgradeInfantry() public{
+        levelOfInfantry[mag.sender]++;
+        ChangeInfantrylevel(levelOfInfantry[msg.sender]);
+    }
+    function upgradePikemen() public{
+        levelOfPikemen[mag.sender]++;
+        ChangePikemenlevel(levelOfPikemen[msg.sender]);
+    }
     function upgradeArcher() public {
-
+        levelOfArcher[mag.sender]++;
+        ChangeArcherlevel(levelOfArcher[msg.sender]);
     }
 }
