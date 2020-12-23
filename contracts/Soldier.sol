@@ -4,8 +4,8 @@ contract Soldier {
     event ChangeFood(uint num);
     event ChangeWood(uint num);
     event ChangeIron(uint num);
-    event ChangeGold(uint num);
     event ChangeStone(uint num);
+    event ChangeGold(uint num);
     event ChangePopulationRestriction(uint num);
     event ChangePower(uint num);
     event LackOfResources();
@@ -22,8 +22,8 @@ contract Soldier {
     mapping (address => uint) public food;
     mapping (address => uint) public wood;
     mapping (address => uint) public iron;
-    mapping (address => uint) public gold;
     mapping (address => uint) public stone;
+    mapping (address => uint) public gold;
     mapping (address => uint) public population;
     mapping (address => uint) public populationRestriction;
     mapping (address => uint) public power;
@@ -38,20 +38,31 @@ contract Soldier {
     mapping (address => uint8) public levelOfPikemen;
     mapping (address => uint8) public levelOfArcher;
 
+    function _cost(uint food, uint wood, uint iron, uint stone, uint gold) internal returns (bool){
+        if(food[msg.sender]>=food && wood[msg.sender]>=wood && iron[msg.sender]>=iron && stone[msg.sender]>=stone && gold[msg.sender]>=gold){
+            food[msg.sender] -= food;
+            wood[msg.sender] -= wood;
+            iron[msg.sender] -= wood;
+            stone[msg.sender] -= stone;
+            gold[msg.sender] -= gold;
+            ChangeFood(food[msg.sender]);
+            ChangeWood(wood[msg.sender]);
+            ChangeIron(iron[msg.sender]);
+            ChangeStone(stone[msg.sender]);
+            ChangeGold(gold[msg.sender]);
+            return true;
+        }
+        return false;
+    }
+
     // Check population before create uint
     function createCavalry(uint number) public {
         uint foodCost = (30*levelOfCavalry[msg.sender] - 5) * number;
         uint ironCost = (20*levelOfCavalry[msg.sender] - 5) * number;
         uint goldCost = (25*levelOfCavalry[msg.sender] - 5) * number;
 
-        if ((food[msg.sender] - foodCost >= 0) && (iron[msg.sender] - ironCost >= 0) && (gold[msg.sender] - goldCost >= 0)){
-            food[msg.sender] -= foodCost;
-            iron[msg.sender] -= ironCost;
-            gold[msg.sender] -= goldCost;
+        if (_cost(foodcost, uint(0), ironCost, uint(0), goldCost)){
             numOfCavalry[msg.sender] += number;
-            ChangeFood(food[msg.sender]);
-            ChangeIron(iron[msg.sender]);
-            ChangeGold(gold[msg.sender]);
             ChangeCavalryNum(numOfCavalry[msg.sender]);
         }
         else{
@@ -59,18 +70,12 @@ contract Soldier {
         }
     }
     function createInfantry(uint number) public {
-        uint stoneCost = (20*levelOfInfantry[msg.sender] - 5) * number;
         uint ironCost = (20*levelOfInfantry[msg.sender] - 5) * number;
+        uint stoneCost = (20*levelOfInfantry[msg.sender] - 5) * number;
         uint goldCost = (20*levelOfInfantry[msg.sender] - 5) * number;
 
-        if ((stone[msg.sender] - stoneCost >= 0) && (iron[msg.sender] - ironCost >= 0) && (gold[msg.sender] - goldCost >= 0)){
-            stone[msg.sender] -= stoneCost;
-            iron[msg.sender] -= ironCost;
-            gold[msg.sender] -= goldCost;
+        if (_cost(uint(0), uint(0), ironCost, stoneCost, goldCost)){
             numOfInfantry[msg.sender] += number;
-            ChangeStone(stone[msg.sender]);
-            ChangeIron(iron[msg.sender]);
-            ChangeGold(gold[msg.sender]);
             ChangeInfantryNum(numOfInfantry[msg.sender]);
         }
         else{
@@ -78,18 +83,12 @@ contract Soldier {
         }
     }
     function createPikemen(uint number) public {
-        uint stoneCost = (25*levelOfPikemen[msg.sender] - 5) * number;
         uint woodCost = (15*levelOfPikemen[msg.sender] - 5) * number;
+        uint stoneCost = (25*levelOfPikemen[msg.sender] - 5) * number;
         uint goldCost = (20*levelOfPikemen[msg.sender] - 5) * number;
 
-        if ((stone[msg.sender] - stoneCost >= 0) && (wood[msg.sender] - woodCost >= 0) && (gold[msg.sender] - goldCost >= 0)){
-            stone[msg.sender] -= stoneCost;
-            wood[msg.sender] -= woodCost;
-            gold[msg.sender] -= goldCost;
+        if (_cost(uint(0), woodCost, uint(0), stoneCost, goldCost)){
             numOfPikemen[msg.sender] += number;
-            ChangeStone(stone[msg.sender]);
-            ChangeWood(wood[msg.sender]);
-            ChangeGold(gold[msg.sender]);
             ChangePikemenNum(numOfPikemen[msg.sender]);
         }
         else{
@@ -101,14 +100,8 @@ contract Soldier {
         uint woodCost = (30*levelOfArcher[msg.sender] - 5) * number;
         uint goldCost = (18*levelOfArcher[msg.sender] - 5) * number;
 
-        if ((food[msg.sender] - foodCost >= 0) && (wood[msg.sender] - woodCost >= 0) && (gold[msg.sender] - goldCost >= 0)){
-            food[msg.sender] -= foodCost;
-            wood[msg.sender] -= woodCost;
-            gold[msg.sender] -= goldCost;
+        if (_cost(foodcost, woodCost, uint(0), uint(0), goldCost)){
             numOfArcher[msg.sender] += number;
-            ChangeFood(food[msg.sender]);
-            ChangeWood(wood[msg.sender]);
-            ChangeGold(gold[msg.sender]);
             ChangeArcherNum(numOfArcher[msg.sender]);
         }
         else{
@@ -123,14 +116,8 @@ contract Soldier {
         uint ironCost = 400*levelOfCavalry[msg.sender] - 100;
         uint goldCost = 500*levelOfCavalry[msg.sender] - 125;
 
-        if ((food[msg.sender] - foodCost >= 0) && (iron[msg.sender] - ironCost >= 0) && (gold[msg.sender] - goldCost >= 0)){
-            food[msg.sender] -= foodCost;
-            iron[msg.sender] -= ironCost;
-            gold[msg.sender] -= goldCost;
+        if (_cost(foodcost, uint(0), ironCost, uint(0), goldCost)){
             levelOfCavalry[mag.sender]++;
-            ChangeFood(food[msg.sender]);
-            ChangeIron(iron[msg.sender]);
-            ChangeGold(gold[msg.sender]);
             ChangeCavalrylevel(levelOfCavalry[msg.sender]);
         }
         else{
@@ -140,18 +127,12 @@ contract Soldier {
 
     }
     function upgradeInfantry() public{
-        uint stoneCost = 400*levelOfInfantry[msg.sender] - 100;
         uint ironCost = 400*levelOfInfantry[msg.sender] - 100;
+        uint stoneCost = 400*levelOfInfantry[msg.sender] - 100;
         uint goldCost = 400*levelOfInfantry[msg.sender] - 100;
 
-        if ((stone[msg.sender] - stoneCost >= 0) && (iron[msg.sender] - ironCost >= 0) && (gold[msg.sender] - goldCost >= 0)){
-            stone[msg.sender] -= stoneCost;
-            iron[msg.sender] -= ironCost;
-            gold[msg.sender] -= goldCost;
+        if (_cost(uint(0), uint(0), ironCost, stoneCost, goldCost)){
             levelOfInfantry[mag.sender]++;
-            ChangeStone(stone[msg.sender]);
-            ChangeIron(iron[msg.sender]);
-            ChangeGold(gold[msg.sender]);
             ChangeInfantrylevel(levelOfInfantry[msg.sender]);
         }
         else{
@@ -159,18 +140,12 @@ contract Soldier {
         }
     }
     function upgradePikemen() public{
-        uint stoneCost = 500*levelOfPikemen[msg.sender] - 125;
         uint woodCost = 300*levelOfPikemen[msg.sender] - 75;
+        uint stoneCost = 500*levelOfPikemen[msg.sender] - 125;
         uint goldCost = 400*levelOfPikemen[msg.sender] - 100;
 
-        if ((stone[msg.sender] - stoneCost >= 0) && (wood[msg.sender] - woodCost >= 0) && (gold[msg.sender] - goldCost >= 0)){
-            stone[msg.sender] -= stoneCost;
-            wood[msg.sender] -= woodCost;
-            gold[msg.sender] -= goldCost;
+        if (_cost(uint(0), woodCost, uint(0), stoneCost, goldCost)){
             levelOfPikemen[mag.sender]++;
-            ChangeStone(stone[msg.sender]);
-            ChangeWood(wood[msg.sender]);
-            ChangeGold(gold[msg.sender]);
             ChangePikemenlevel(levelOfPikemen[msg.sender]);
         }
         else{
@@ -182,14 +157,8 @@ contract Soldier {
         uint woodCost = 600*levelOfArcher[msg.sender] - 150;
         uint goldCost = 360*levelOfArcher[msg.sender] - 90;
 
-        if ((food[msg.sender] - foodCost >= 0) && (wood[msg.sender] - woodCost >= 0) && (gold[msg.sender] - goldCost >= 0)){
-            food[msg.sender] -= foodCost;
-            wood[msg.sender] -= woodCost;
-            gold[msg.sender] -= goldCost;
+        if (_cost(foodcost, woodCost, uint(0), uint(0), goldCost)){
             levelOfArcher[mag.sender]++;
-            ChangeFood(food[msg.sender]);
-            ChangeWood(wood[msg.sender]);
-            ChangeGold(gold[msg.sender]);
             ChangeArcherlevel(levelOfArcher[msg.sender]);
         }
         else{
