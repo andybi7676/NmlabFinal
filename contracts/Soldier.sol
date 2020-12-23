@@ -42,7 +42,7 @@ contract Soldier {
         if(food[msg.sender]>=food && wood[msg.sender]>=wood && iron[msg.sender]>=iron && stone[msg.sender]>=stone && gold[msg.sender]>=gold){
             food[msg.sender] -= food;
             wood[msg.sender] -= wood;
-            iron[msg.sender] -= wood;
+            iron[msg.sender] -= iron;
             stone[msg.sender] -= stone;
             gold[msg.sender] -= gold;
             ChangeFood(food[msg.sender]);
