@@ -35,14 +35,17 @@ contract BuildingFactory is Account {
         return buildings[buildingID].level * buildTimeNeed;
     }
     
-    function _updateBuild(address _owner) internal returns(bool){
+    function _updateBuild(address _owner) internal returns(uint){
         uint buildingID = ownerBuildingId[_owner];
         if (ownerStartBuildTime[_owner] != 0 && now >= ownerStartBuildTime[_owner] + buildings[buildingID].level * buildTimeNeed) {
             buildings[buildingID].level = buildings[buildingID].level.add(1);
             ownerStartBuildTime[_owner] = 0;
-            return true;
+            return 0;
         }
-        return false;
+        else {
+            uint remainingTime = ownerStartBuildTime[_owner] + buildings[buildingID].level * buildTimeNeed - now;
+            return remainingTime;
+        }
     }
 
     function _getBuildingByOwner(address _owner, uint _placeX, uint _placeY) internal view returns(uint) {
