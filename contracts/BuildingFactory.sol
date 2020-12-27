@@ -12,7 +12,7 @@ contract BuildingFactory is Account {
         uint level;
     }
 
-    uint buildTimeNeed = 1;
+    uint buildTimeNeed = 10;
     Building[] public buildings;
 
     mapping (uint => address) public buildingToOwner;
@@ -48,7 +48,7 @@ contract BuildingFactory is Account {
         }
     }
 
-    function _getBuildingByOwner(address _owner, uint _placeX, uint _placeY) internal view returns(uint) {
+    function _getBuildingByOwner(address _owner, uint _placeX, uint _placeY) external view returns(uint) {
         for (uint i = 0; i < buildings.length; i++) {
             if (buildingToOwner[i] == _owner) {
                 if (buildings[i].placeX == _placeX && buildings[i].placeX == _placeY) {
@@ -68,7 +68,7 @@ contract BuildingFactory is Account {
         return result;
     }
 
-    function _getSpecificBuildingByOwner(address _owner, string memory _name) internal view returns(uint[] memory) {
+    function _getSpecificBuildingByOwner(address _owner, string memory _name) external view returns(uint[] memory) {
         uint[] memory result = [];
         // result.push(0);
         for (uint i = 0; i < buildings.length; i++) {
@@ -78,4 +78,6 @@ contract BuildingFactory is Account {
         }
         return result;
     }
+
+    
 }
