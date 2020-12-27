@@ -9,10 +9,8 @@ const GameScene = () => {
       <Grid.Column width={3}>
         <Menu />
       </Grid.Column>
-      <Grid.Column width={13} >
-        <div style={{margin: "auto"}}>
-          <Map />
-        </div>
+      <Grid.Column width={13}>
+        <Map />
       </Grid.Column>
     </Grid.Row>
   </Grid>

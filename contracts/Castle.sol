@@ -1,4 +1,4 @@
-pragma solidity >=0.6.0 <0.8.0;
+pragma solidity >=0.4.21 <0.7.0;
 
 import "./SafeMath.sol";
 import "./BuildingFactory.sol";
@@ -11,13 +11,13 @@ contract CastleFactory is BuildingFactory {
     }
 
     function _startBuildCastle(address _owner, uint _x, uint _y) internal {
-        castleID = _getBuildingByOwner(_owner, "Castle", _x, _y);
+        uint castleID = _getBuildingByOwner(_owner, "Castle", _x, _y);
         require(buildings[castleID].add(1) <= castleLevel[_owner]);
         _startBuild(castleID);
     }
 
     modifier lessThanCastle(address _owner, uint _buildingID) {
-        require(buildings[_buildingsID].add(1) <= castleLevel[_owner]);
+        require(buildings[_buildingID].add(1) <= castleLevel[_owner]);
         _;
     }
 }

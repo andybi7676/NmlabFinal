@@ -1,12 +1,13 @@
 import React from 'react';
 import { Dropdown, Button } from 'semantic-ui-react';
+import Farm from './Farm';
 
-const Building = ({ type , level , onHover, unHover }) => {
+const Building = ({ type , level , onHover, unHover, changeType }) => {
   const create = () => {
     console.log("creating building");
   }
 
-  if(type == "none") {
+  if(type === "none") {
     return (
       //// will update by using Popup
       <Dropdown fluid pointing="left" icon={null} text='' onMouseEnter={onHover} onMouseLeave={unHover} >
@@ -27,7 +28,7 @@ const Building = ({ type , level , onHover, unHover }) => {
                 <Dropdown.Item>
                   Manor
                 </Dropdown.Item>
-                <Dropdown.Item>
+                <Dropdown.Item onClick={() => changeType("farm")}>
                   Farm
                 </Dropdown.Item>
               </Dropdown.Menu>
@@ -41,6 +42,11 @@ const Building = ({ type , level , onHover, unHover }) => {
       </Dropdown.Menu>
       </Dropdown>
     )
+  }
+  if(type === "farm") {
+    return <>
+      <Farm changeType={changeType} />
+    </>
   }
   else return<></>;
 }

@@ -1,6 +1,6 @@
 pragma solidity >=0.4.21 <0.7.0;
 
-import "./Soldier.sol"
+import "./Soldier.sol";
 
 contract Attack is Soldier {
     uint powerOfCavalry = 0;

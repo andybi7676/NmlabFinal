@@ -11,7 +11,7 @@ contract Soldier {
     event LackOfResources();
 
     event ChangeCavalryNum(uint num);
-    event ChangeInfantrNum(uint num);
+    event ChangeInfantryNum(uint num);
     event ChangePikemenNum(uint num);
     event ChangeArcherNum(uint num);
     event ChangeCavalrylevel(uint8 level);
@@ -61,12 +61,12 @@ contract Soldier {
         uint ironCost = (20*levelOfCavalry[msg.sender] - 5) * number;
         uint goldCost = (25*levelOfCavalry[msg.sender] - 5) * number;
 
-        if (_cost(foodcost, uint(0), ironCost, uint(0), goldCost)){
+        if (_cost(foodCost, uint(0), ironCost, uint(0), goldCost)){
             numOfCavalry[msg.sender] += number;
             ChangeCavalryNum(numOfCavalry[msg.sender]);
         }
         else{
-            LackOfResource();
+            LackOfResources();
         }
     }
     function createInfantry(uint number) public {
@@ -100,7 +100,7 @@ contract Soldier {
         uint woodCost = (30*levelOfArcher[msg.sender] - 5) * number;
         uint goldCost = (18*levelOfArcher[msg.sender] - 5) * number;
 
-        if (_cost(foodcost, woodCost, uint(0), uint(0), goldCost)){
+        if (_cost(foodCost, woodCost, uint(0), uint(0), goldCost)){
             numOfArcher[msg.sender] += number;
             ChangeArcherNum(numOfArcher[msg.sender]);
         }
@@ -117,7 +117,7 @@ contract Soldier {
         uint goldCost = 500*levelOfCavalry[msg.sender] - 125;
 
         if (_cost(foodcost, uint(0), ironCost, uint(0), goldCost)){
-            levelOfCavalry[mag.sender]++;
+            levelOfCavalry[msg.sender]++;
             ChangeCavalrylevel(levelOfCavalry[msg.sender]);
         }
         else{

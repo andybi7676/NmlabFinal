@@ -5,6 +5,7 @@ import Building from "./Building"
 
 const Cell = ({ x, y }) => {
   const state = useContext(ContractContext);
+  const [ type, setType ] = useState("none");
   const [ CellStyle, setCellStyle ] = useState({
     border: "1.5px solid #999",
     color: "#6CC",
@@ -24,9 +25,14 @@ const Cell = ({ x, y }) => {
       backgroundColor: "#FFF",
     });
   }
+
+  const changeType = (newType) => {
+    unHover();
+    setType(newType);
+  }
   return (
     <div className="Cell_1x1" tabIndex="1" id={`Cell-${x}*${y}`} style={CellStyle}>
-      <Building type="none" onHover={onHover} unHover={unHover} />
+      <Building type={type} onHover={onHover} unHover={unHover} changeType={changeType}/>
     </div>
   )
 
