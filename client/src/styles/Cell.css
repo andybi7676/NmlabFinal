@@ -1,9 +1,9 @@
 .Cell_1x1 {
-  background-color: #FFF;
+  /* background-color: #FFF;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: center; */
   width: 10vh;
   height: 10vh;
   max-width: 8vw;
@@ -11,6 +11,8 @@
   font-size: 12px;
   transition: 0.5s ease-out;
   /* color: #6CC; */
+  position: absolute;
+  z-index: 1;
 }
 
 .Cell_1x1:hover {
