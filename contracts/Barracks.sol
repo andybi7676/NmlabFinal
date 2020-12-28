@@ -11,16 +11,16 @@ contract BarrackFactory is CastleFactory, Soldier {
     }
 
     function createSoldier(string _name, uint number) public {
-        if (_name == "Cavalry") {
+        if (keccak256(bytes(_name)) == keccak256(bytes("Cavalry"))) {
             createCavalry(number);
         }
-        else if (_name == "Pikemen") {
+        else if (keccak256(bytes(_name)) == keccak256(bytes("Pikemen"))) {
             createPikemen(number);
         }
-        else if (_name == "Infantry") {
+        else if (keccak256(bytes(_name)) == keccak256(bytes("Infantry"))) {
             createInfantry(number);
         }
-        else if (_name == "Archer") {
+        else if (keccak256(bytes(_name)) == keccak256(bytes("Archer"))) {
             createArcher(number);
         }
     }

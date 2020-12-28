@@ -4,6 +4,8 @@ import "./SafeMath.sol";
 
 contract Account {
     
+    using SafeMath for uint;
+    
     mapping (address => uint) public stoneOwnerCount;
     mapping (address => uint) public ironOwnerCount;
     mapping (address => uint) public foodOwnerCount;
@@ -17,11 +19,11 @@ contract Account {
             ironOwnerCount[msg.sender] -= iron;
             stoneOwnerCount[msg.sender] -= stone;
             coinOwnerCount[msg.sender] -= coin;
-            ChangeFood(foodOwnerCount[msg.sender]);
+            /*ChangeFood(foodOwnerCount[msg.sender]);
             ChangeWood(woodOwnerCount[msg.sender]);
             ChangeIron(ironOwnerCount[msg.sender]);
             ChangeStone(stoneOwnerCount[msg.sender]);
-            ChangeCoin(coinOwnerCount[msg.sender]);
+            ChangeCoin(coinOwnerCount[msg.sender]);*/
             return true;
         }
         return false;
