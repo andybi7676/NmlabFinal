@@ -14,6 +14,7 @@ contract BuildingFactory is Account {
 
     uint buildTimeNeed = 10;
     Building[] public buildings;
+    uint buildResourceNeed = 10;
 
     mapping (uint => address) public buildingToOwner;
     mapping (address => uint) ownerStartBuildTime;
@@ -22,6 +23,7 @@ contract BuildingFactory is Account {
 
     function _createBuilding(string memory _name, uint _x, uint _y) internal {
         uint id = buildings.push(Building(_name, _x, _y, 1).sub(1));
+        _cost(0, buildResourceNeed, buildResourceNeed, buildResourceNeed, buildResourceNeed);
         buildingToOwner[id] = msg.sender;
     }
 
@@ -32,6 +34,8 @@ contract BuildingFactory is Account {
         }
         ownerBuildingId[_owner] = buildingID;
         ownerStartBuildTime[_owner] = now;
+        uint buildingResourceNeed = buildings[buildingID].level * buildResourceNeed;
+        _cost(0, buildingResourceNeed, buildingResourceNeed, buildingResourceNeed, buildingResourceNeed);
         return buildings[buildingID].level * buildTimeNeed;
     }
     
