@@ -16,7 +16,7 @@
   /* width: 700px; */
   /* flex-direction: row-reverse; */
   z-index: 0;
-  cursor: move;
+  cursor: grab;
 }
 
 .background_img {

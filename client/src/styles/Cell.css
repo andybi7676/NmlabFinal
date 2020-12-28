@@ -6,17 +6,20 @@
   justify-content: center; */
   width: 10vh;
   height: 10vh;
-  max-width: 8vw;
-  max-height: 8vw;
   font-size: 12px;
   transition: 0.5s ease-out;
   /* color: #6CC; */
   position: absolute;
+  transform: rotate(45deg);
+  cursor: pointer;
   z-index: 1;
+}
+
+.Cell_1x1:focus {
+  outline: none;
 }
 
 .Cell_1x1:hover {
   background-color: #999;
-  border: 2px solid #999;
   color: #fff;
 }

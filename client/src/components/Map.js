@@ -1,9 +1,7 @@
 import React from "react";
 import Cell from './Cell';
 import "../styles/Map.css";
-import mp_img from "../images/background.jpg";
 import test_png from '../images/test_div.png';
-import { Button } from "semantic-ui-react";
 import Draggable from 'react-draggable';
 
 
