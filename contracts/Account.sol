@@ -4,8 +4,8 @@ import "./SafeMath.sol";
 
 contract Account {
     
-    mapping (address => uint) public rockOwnerCount;
-    mapping (address => uint) public oreOwnerCount;
+    mapping (address => uint) public stoneOwnerCount;
+    mapping (address => uint) public ironOwnerCount;
     mapping (address => uint) public foodOwnerCount;
     mapping (address => uint) public coinOwnerCount;
     mapping (address => uint) public woodOwnerCount;

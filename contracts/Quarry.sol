@@ -5,13 +5,13 @@ import "./Castle.sol";
 
 contract QuarryFactory is CastleFactory {
     
-    mapping (address => uint) public ownerRockProduceTime;
-    uint produceRockAbility = 1;
+    mapping (address => uint) public ownerStoneProduceTime;
+    uint produceStoneAbility = 1;
 
 
     function _createQuarry(uint _x, uint _y) internal {
         _createBuilding("Quarry", _x, _y);
-        _updateProduceRock(msg.sender);
+        _updateProduceStone(msg.sender);
     }
 
     function _startBuildQuarry(address _owner, uint _x, uint _y) internal {
@@ -20,18 +20,18 @@ contract QuarryFactory is CastleFactory {
         _startBuild(quarryID);
     }
     
-    function _updateProduceRock(address _owner) internal {
+    function _updateProduceStone(address _owner) internal {
         quarries = _getSpecificBuildingByOwner(_owner, "Quarry");
         if (quarrries.length > 1){
-            while (now > ownerRockProduceTime[_owner].add(10 seconds)) {
+            while (now > ownerStoneProduceTime[_owner].add(10 seconds)) {
                 for (uint i = 1; i < quarries.length; i++) {
-                    rockOwnerCount[_owner] = rockOwnerCount[_owner].add(buildings[quarries[i]].level * produceRockAbility );
+                    stoneOwnerCount[_owner] = stoneOwnerCount[_owner].add(buildings[quarries[i]].level * produceStoneAbility );
                 }
-                ownerRockProduceTime[_owner] = ownerRockProduceTime[_owner].add(10 seconds);
+                ownerStoneProduceTime[_owner] = ownerStoneProduceTime[_owner].add(10 seconds);
             }
         }
         else {
-            ownerRockProduceTime[_owner] = now;
+            ownerStoneProduceTime[_owner] = now;
         }
     }
 }
