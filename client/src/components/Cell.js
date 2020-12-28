@@ -7,12 +7,16 @@ const Cell = ({ x, y }) => {
   const state = useContext(ContractContext);
   const [ type, setType ] = useState("none");
   const [ CellStyle, setCellStyle ] = useState({
+    left: `${x}px`,
+    top: `${y}px`,
     border: "1.5px solid #999",
     color: "#6CC",
     backgroundColor: "#FFF",
   });
   const onHover = () => {
     setCellStyle({
+      left: `${x}px`,
+      top: `${y}px`,
       "backgroundColor": "#999",
       border: "2px solid #999",
       color: "#fff",
@@ -20,6 +24,8 @@ const Cell = ({ x, y }) => {
   }
   const unHover = () => {
     setCellStyle({
+      left: `${x}px`,
+      top: `${y}px`,
       border: "1.5px solid #999",
       color: "#6CC",
       backgroundColor: "#FFF",
