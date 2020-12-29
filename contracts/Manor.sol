@@ -11,7 +11,7 @@ contract ManorFactory is CastleFactory {
     uint produceCoinAbility = 1;
 
     function _createManor(uint _x, uint _y) internal {
-        _createBuilding("Manor", _x, _y);
+        createBuilding("Manor", _x, _y);
         _updateProduceCoin(msg.sender);
     }
 

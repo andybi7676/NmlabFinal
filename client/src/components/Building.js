@@ -7,10 +7,10 @@ const Building = ({ type , level  }) => {
     console.log("creating building");
   }
 
-  if(type === "none") {
+  if(type === "None") {
     
   }
-  if(type === "farm") {
+  if(type === "Farm") {
     return <Icon name='tree' color="green" />
   }
   else return<></>;

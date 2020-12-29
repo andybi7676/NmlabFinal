@@ -11,7 +11,7 @@ contract SawmillFactory is CastleFactory {
     uint produceWoodAbility = 1;
 
     function _createSawmill(uint _x, uint _y) internal {
-        _createBuilding("Sawmill", _x, _y);
+        createBuilding("Sawmill", _x, _y);
         _updateProduceWood(msg.sender);
     }
 

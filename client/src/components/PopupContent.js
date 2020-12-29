@@ -1,16 +1,39 @@
 import React, { useState } from "react";
+import { Dropdown, Button, Menu, Header, Popup } from 'semantic-ui-react';
 
-const PopupContent = ({ type }) => {
+const PopupContent = ({ type, onBuild }) => {
 
   let content;
 
   switch (type) {
-    case "none":
+    case "None":
       content = <>
-        This is content for type none.
+        <Popup
+          content={
+            <Menu vertical>
+              <Menu.Item
+                name='buildFarm'
+              >
+                <Header as='h4'>Farm</Header>
+                <p>generate food</p>
+              </Menu.Item>
+              <Menu.Item
+                name='buildMine'
+              >
+                <Header as='h4'>Mine</Header>
+                <p>generate iron</p>
+              </Menu.Item>
+            </Menu>
+          }
+          on='click'
+          popper={{ id: 'popper-container', style: { zIndex: 2 } }}
+          trigger={
+            <Button content="BUILD" icon="building" />
+          }
+        />
       </>;
       break;
-    case "farm":
+    case "Farm":
       content = <>
         This is content for type farm.
       </>;

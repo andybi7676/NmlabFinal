@@ -11,7 +11,7 @@ contract MineFactory is CastleFactory {
     uint produceIronAbility = 1;
 
     function _createMine(uint _x, uint _y) internal {
-        _createBuilding("Mine", _x, _y);
+        createBuilding("Mine", _x, _y);
         _updateProduceIron(msg.sender);
     }
 

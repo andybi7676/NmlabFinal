@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { useState, useContext, useEffect } from "react";
-import SimpleStorageContract from "./contracts/SimpleStorage.json";
+import BuildingFactoryContract from "./contracts/BuildingFactory.json";
 import getWeb3 from "./getWeb3";
 import { Navbar, GameScene } from './components';
 
 // import "./App.css";
 
 import 'semantic-ui-css/semantic.min.css';
+import Building from "./components/Building";
 
 export const ContractContext = React.createContext();
 const App = () => {
@@ -20,9 +21,9 @@ const App = () => {
         const accounts = await web3.eth.getAccounts();
         // Get the contract instance.
         const networkId = await web3.eth.net.getId();
-        const deployedNetwork = SimpleStorageContract.networks[networkId];
+        const deployedNetwork = BuildingFactoryContract.networks[networkId];
         const instance = new web3.eth.Contract(
-          SimpleStorageContract.abi,
+          BuildingFactoryContract.abi,
           deployedNetwork && deployedNetwork.address,
         );
         // Set web3, accounts, and contract to the state, and then proceed with an

@@ -23,7 +23,7 @@ contract Earning is Ownable, BuildingFactory {
         address _owner = msg.sender;
         require(msg.value == speedUpFee);
         ownerStartBuildTime[_owner] = ownerStartBuildTime[_owner] + buildings[ownerBuildingId[_owner]].level * buildTimeNeed / 2;
-        return _updateBuild(_owner);
+        return updateBuild(_owner);
     }
 
     function setResourceFee(uint _fee) external onlyOwner {

@@ -12,7 +12,7 @@ contract QuarryFactory is CastleFactory {
 
 
     function _createQuarry(uint _x, uint _y) internal {
-        _createBuilding("Quarry", _x, _y);
+        createBuilding("Quarry", _x, _y);
         _updateProduceStone(msg.sender);
     }
 

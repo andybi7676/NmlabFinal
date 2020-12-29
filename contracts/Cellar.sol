@@ -15,7 +15,7 @@ contract CellarFactory is CastleFactory {
     uint SaveResourceAbility = 100;
     
     function _createCellar(uint _x, uint _y) internal {
-        _createBuilding("Cellar", _x, _y);
+        createBuilding("Cellar", _x, _y);
     }
 
     function _saveResource(address _owner) internal {

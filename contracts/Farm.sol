@@ -11,7 +11,7 @@ contract FarmFactory is CastleFactory {
     uint produceFoodAbility = 1;
 
     function _createFarm(uint _x, uint _y) internal {
-        _createBuilding("Farm", _x, _y);
+        createBuilding("Farm", _x, _y);
         _updateProduceFood(msg.sender);
     }
 

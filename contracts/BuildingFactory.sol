@@ -32,7 +32,7 @@ contract BuildingFactory is Account {
     mapping (address => uint) ownerBarrackCount;
 
 
-    function _createBuilding(string memory _name, uint _x, uint _y) internal {
+    function createBuilding(string memory _name, uint _x, uint _y) public returns(uint){
         uint id = buildings.push(Building(_name, _x, _y, 1)).sub(1);
         _cost(0, buildResourceNeed, buildResourceNeed, buildResourceNeed, buildResourceNeed);
         buildingToOwner[id] = msg.sender;
@@ -57,9 +57,10 @@ contract BuildingFactory is Account {
         else if (keccak256(bytes(_name)) == keccak256(bytes("Barrack"))) {
             ownerBarrackCount[msg.sender] = ownerBarrackCount[msg.sender].add(1);
         }
+        return id;
     }
 
-    function _startBuild(address _owner, uint _x, uint _y) internal returns(uint){
+    function startBuild(address _owner, uint _x, uint _y) public returns(uint){
         uint buildingID = getBuildingByOwner(_owner, _x, _y);
         if (keccak256(bytes(buildings[buildingID].name)) != keccak256(bytes("Castle"))) {
             require(castleLevel[_owner] >= buildings[buildingID].level.add(1));
@@ -71,7 +72,7 @@ contract BuildingFactory is Account {
         return buildings[buildingID].level * buildTimeNeed;
     }
     
-    function _updateBuild(address _owner) internal returns(uint){
+    function updateBuild(address _owner) public returns(uint){
         uint buildingID = ownerBuildingId[_owner];
         if (ownerStartBuildTime[_owner] != 0 && now >= ownerStartBuildTime[_owner] + buildings[buildingID].level * buildTimeNeed) {
             buildings[buildingID].level = buildings[buildingID].level.add(1);
@@ -92,6 +93,7 @@ contract BuildingFactory is Account {
                 }
             }
         }
+        return -1;
     }
 
     function getBuildingsByOwner(address _owner) public view returns(uint[] memory) {

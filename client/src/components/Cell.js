@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { ContractContext } from "../App";
 import "../styles/Cell.css";
 import { Popup } from 'semantic-ui-react'
@@ -8,7 +8,7 @@ import PopupContent from './PopupContent'
 
 const Cell = ({ x, y }) => {
   const state = useContext(ContractContext);
-  const [ type, setType ] = useState("none");
+  const [ type, setType ] = useState("None");
   const [ CellStyle, setCellStyle ] = useState({
     left: `${x}px`,
     top: `${y}px`,
@@ -32,10 +32,18 @@ const Cell = ({ x, y }) => {
     });
   }
 
-  const changeType = (newType) => {
-    unHover();
-    setType(newType);
+  const createBuilding = async (newType) => {
+    const { contract, accounts } = state;
+    
   }
+
+  useEffect(() => {
+    console.log(state);
+    if(state.contract !== null) {
+      state.contract.methods.buildings().call((err, msg)=>console.log(msg));
+    }
+  }, [state]);
+
   return <>
     <Popup
       content={
