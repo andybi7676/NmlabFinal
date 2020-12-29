@@ -5,38 +5,36 @@ import "./Castle.sol";
 
 contract CellarFactory is CastleFactory {
     
-    using SafeMath for uint;
-    
     mapping (address => uint) OwnerSaveWood;
-    mapping (address => uint) OwnerSaveIron;
+    mapping (address => uint) OwnerSaveOre;
     mapping (address => uint) OwnerSaveFood;
     mapping (address => uint) OwnerSaveCoin;
-    mapping (address => uint) OwnerSaveStone;
+    mapping (address => uint) OwnerSaveRock;
     uint SaveResourceAbility = 100;
     
     function _createCellar(uint _x, uint _y) internal {
         _createBuilding("Cellar", _x, _y);
     }
 
-    function _saveResource(address _owner) internal {
-        uint[] memory cellars = getSpecificBuildingByOwner(_owner, "Cellar");
+    function _saveResource(string _owner) internal {
+        cellars = _getSpecificBuildingByOwner(_owner, "Cellar");
         for (uint i = 0; i < cellars.length; i++) {
             uint saveAmount = buildings[cellars[i]].level * SaveResourceAbility;
-            if (stoneOwnerCount[_owner] <= saveAmount) {
-                OwnerSaveStone[_owner] = OwnerSaveStone[_owner].add(stoneOwnerCount[_owner]);
-                stoneOwnerCount[_owner] = 0;
+            if (rockOwnerCount[_owner] <= saveAmount) {
+                OwnerSaveRock[_owner] = OwnerSaveRock[_owner].add(rockOwnerCount[_owner]);
+                rockOwnerCount[_owner] = 0;
             }
             else{
-                stoneOwnerCount[_owner] = stoneOwnerCount[_owner].sub(saveAmount);
-                OwnerSaveStone[_owner] = OwnerSaveStone[_owner].add(saveAmount);
+                rockOwnerCount[_owner] = rockOwnerCount[_owner].sub(saveAmount);
+                OwnerSaveRock[_owner] = OwnerSaveRock[_owner].add(saveAmount);
             }
-            if (ironOwnerCount[_owner] <= saveAmount) {
-                OwnerSaveIron[_owner] = OwnerSaveIron[_owner].add(ironOwnerCount[_owner]);
-                ironOwnerCount[_owner] = 0;
+            if (oreOwnerCount[_owner] <= saveAmount) {
+                OwnerSaveOre[_owner] = OwnerSaveOre[_owner].add(oreOwnerCount[_owner]);
+                oreOwnerCount[_owner] = 0;
             }
             else{
-                ironOwnerCount[_owner] = ironOwnerCount[_owner].sub(saveAmount);
-                OwnerSaveIron[_owner] = OwnerSaveIron[_owner].add(saveAmount);
+                oreOwnerCount[_owner] = oreOwnerCount[_owner].sub(saveAmount);
+                OwnerSaveOre[_owner] = OwnerSaveOre[_owner].add(saveAmount);
             }
             if (foodOwnerCount[_owner] <= saveAmount) {
                 OwnerSaveFood[_owner] = OwnerSaveFood[_owner].add(foodOwnerCount[_owner]);
@@ -65,11 +63,11 @@ contract CellarFactory is CastleFactory {
         }           
     }
 
-    function _takeResource(address _owner) internal {
-        stoneOwnerCount[_owner] = stoneOwnerCount[_owner].add(OwnerSaveStone[_owner]);
-        OwnerSaveStone[_owner] = 0;
-        ironOwnerCount[_owner] = ironOwnerCount[_owner].sub(OwnerSaveIron[_owner]);
-        OwnerSaveIron[_owner] = 0;
+    function _takeResource(string _owner) internal {
+        rockOwnerCount[_owner] = rockOwnerCount[_owner].add(OwnerSaveRock[_owner]);
+        OwnerSaveRock[_owner] = 0;
+        oreOwnerCount[_owner] = oreOwnerCount[_owner].sub(OwnerSaveOre[_owner]);
+        OwnerSaveOre[_owner] = 0;
         foodOwnerCount[_owner] = foodOwnerCount[_owner].sub(OwnerSaveFood[_owner]);
         OwnerSaveFood[_owner] = 0;
         coinOwnerCount[_owner] = coinOwnerCount[_owner].sub(OwnerSaveCoin[_owner]);

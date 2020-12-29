@@ -5,8 +5,6 @@ import "./Castle.sol";
 
 contract ManorFactory is CastleFactory {
     
-    using SafeMath for uint;
-    
     mapping (address => uint) public ownerCoinProduceTime;
     uint produceCoinAbility = 1;
 
@@ -15,9 +13,14 @@ contract ManorFactory is CastleFactory {
         _updateProduceCoin(msg.sender);
     }
 
+    function _startBuildManor(address _owner, uint _x, uint _y) internal {
+        manorID = _getBuildingByOwner(_owner, "Manor", _x, _y);
+        require(buildings[manorID].add(1) <= castleLevel[_owner]);
+        _startBuild(manorID);
+    }
 
     function _updateProduceCoin(address _owner) internal {
-        uint[] memory manors = getSpecificBuildingByOwner(_owner, "Manor");
+        manors = _getSpecificBuildingByOwner(_owner, "Manor");
         if (manors.length > 1){
             while (now > ownerCoinProduceTime[_owner].add(10 seconds)) {
                 for (uint i = 1; i < manors.length; i++) {

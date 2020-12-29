@@ -5,8 +5,6 @@ import "./Castle.sol";
 
 contract SawmillFactory is CastleFactory {
     
-    using SafeMath for uint;
-    
     mapping (address => uint) public ownerWoodProduceTime;
     uint produceWoodAbility = 1;
 
@@ -15,9 +13,14 @@ contract SawmillFactory is CastleFactory {
         _updateProduceWood(msg.sender);
     }
 
+    function _startBuildSawmill(address _owner, uint _x, uint _y) internal {
+        sawmillID = _getBuildingByOwner(_owner, "Sawmill", _x, _y);
+        require(buildings[sawmillID].add(1) <= castleLevel[_owner]);
+        _startBuild(sawmillID);
+    }
 
     function _updateProduceWood(address _owner) internal {
-        uint[] memory sawmills = getSpecificBuildingByOwner(_owner, "Sawmill");
+        sawmills = _getSpecificBuildingByOwner(_owner, "Sawmill");
         if (sawmills.length > 1){
             while (now > ownerWoodProduceTime[_owner].add(10 seconds)) {
                 for (uint i = 1; i < sawmills.length; i++) {
