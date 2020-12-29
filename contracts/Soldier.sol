@@ -3,29 +3,31 @@ pragma solidity >=0.4.21 <0.7.0;
 import "./Account.sol";
 
 contract Soldier is Account{
-    function _cost(uint food, uint wood, uint iron, uint stone, uint coin) internal returns (bool){
-        if((food[msg.sender]>=food) && (wood[msg.sender]>=wood) && (iron[msg.sender]>=iron) && (stone[msg.sender]>=stone) && (coin[msg.sender]>=coin)){
-            food[msg.sender] -= food;
-            wood[msg.sender] -= wood;
-            iron[msg.sender] -= iron;
-            stone[msg.sender] -= stone;
-            coin[msg.sender] -= coin;
-            ChangeFood(food[msg.sender]);
-            ChangeWood(wood[msg.sender]);
-            ChangeIron(iron[msg.sender]);
-            ChangeStone(stone[msg.sender]);
-            ChangeCoin(coin[msg.sender]);
-            return true;
-        }
-        return false;
-    }
+    event ChangeCavalryNum(uint num);
+    event ChangeInfantryNum(uint num);
+    event ChangePikemenNum(uint num);
+    event ChangeArcherNum(uint num);
+    event ChangeCavalrylevel(uint8 level);
+    event ChangeInfantrylevel(uint8 level);
+    event ChangePikemenlevel(uint8 level);
+    event ChangeArcherlevel(uint8 level);
+
+    mapping (address => uint) public numOfCavalry;
+    mapping (address => uint) public numOfInfantry;
+    mapping (address => uint) public numOfPikemen;
+    mapping (address => uint) public numOfArcher;
+
+    mapping (address => uint8) public levelOfCavalry;
+    mapping (address => uint8) public levelOfInfantry;
+    mapping (address => uint8) public levelOfPikemen;
+    mapping (address => uint8) public levelOfArcher;
 
     function _powerChange() internal{
         power[msg.sender] = numOfCavalry[msg.sender]*levelOfCavalry + numOfInfantry[msg.sender]*levelOfInfantry
                             + numOfPikemen[msg.sender]*levelOfPikemen + numOfArcher[msg.sender]*levelOfArcher;
     }
 
-    function createCavalry(uint number) public {
+    function createCavalry(uint number) internal {
         uint foodCost = (30*levelOfCavalry[msg.sender] - 5) * number;
         uint ironCost = (20*levelOfCavalry[msg.sender] - 5) * number;
         uint coinCost = (25*levelOfCavalry[msg.sender] - 5) * number;
@@ -40,7 +42,7 @@ contract Soldier is Account{
             LackOfResources();
         }
     }
-    function createInfantry(uint number) public {
+    function createInfantry(uint number) internal {
         uint ironCost = (20*levelOfInfantry[msg.sender] - 5) * number;
         uint stoneCost = (20*levelOfInfantry[msg.sender] - 5) * number;
         uint coinCost = (20*levelOfInfantry[msg.sender] - 5) * number;
@@ -55,7 +57,7 @@ contract Soldier is Account{
             LackOfResources();
         }
     }
-    function createPikemen(uint number) public {
+    function createPikemen(uint number) internal {
         uint woodCost = (15*levelOfPikemen[msg.sender] - 5) * number;
         uint stoneCost = (25*levelOfPikemen[msg.sender] - 5) * number;
         uint coinCost = (20*levelOfPikemen[msg.sender] - 5) * number;
@@ -70,7 +72,7 @@ contract Soldier is Account{
             LackOfResources();
         }
     }
-    function createArcher(uint number) public {
+    function createArcher(uint number) internal {
         uint foodCost = (10*levelOfArcher[msg.sender] - 5) * number;
         uint woodCost = (30*levelOfArcher[msg.sender] - 5) * number;
         uint coinCost = (18*levelOfArcher[msg.sender] - 5) * number;
@@ -88,7 +90,7 @@ contract Soldier is Account{
 
 
 
-    function upgradeCavalry() public{
+    function upgradeCavalry() internal{
         uint foodCost = 600*levelOfCavalry[msg.sender] - 150;
         uint ironCost = 400*levelOfCavalry[msg.sender] - 100;
         uint coinCost = 500*levelOfCavalry[msg.sender] - 125;
@@ -105,7 +107,7 @@ contract Soldier is Account{
 
 
     }
-    function upgradeInfantry() public{
+    function upgradeInfantry() internal{
         uint ironCost = 400*levelOfInfantry[msg.sender] - 100;
         uint stoneCost = 400*levelOfInfantry[msg.sender] - 100;
         uint coinCost = 400*levelOfInfantry[msg.sender] - 100;
@@ -120,7 +122,7 @@ contract Soldier is Account{
             LackOfResources();
         }
     }
-    function upgradePikemen() public{
+    function upgradePikemen() internal{
         uint woodCost = 300*levelOfPikemen[msg.sender] - 75;
         uint stoneCost = 500*levelOfPikemen[msg.sender] - 125;
         uint coinCost = 400*levelOfPikemen[msg.sender] - 100;
@@ -135,7 +137,7 @@ contract Soldier is Account{
             LackOfResources();
         }
     }
-    function upgradeArcher() public {
+    function upgradeArcher() internal {
         uint foodCost = 200*levelOfArcher[msg.sender] - 50;
         uint woodCost = 600*levelOfArcher[msg.sender] - 150;
         uint coinCost = 360*levelOfArcher[msg.sender] - 90;
