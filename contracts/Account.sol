@@ -20,15 +20,14 @@ contract Account {
     mapping (address => uint) public coinOwnerCount;
     mapping (address => uint) public power;
 
-    mapping (uint => address) public castleToOwner; // ?????
-    mapping (address => uint) public onwerCastleCount; // ?????
+    mapping (uint => address) public castleToOwner;
+    mapping (address => uint) public onwerCastleCount;
 
     uint IdDigits = 16;
     uint IdModulus = 10 ** IdDigits;
 
     function _createCastle(string _name, uint _id) internal {
-        uint id = _id;
-        castleToOwner[id] = msg.sender;
+        castleToOwner[_id] = msg.sender;
         ownerCastleCount[msg.sender]++;
         NewCastle(_name, _id);
     }
@@ -53,11 +52,6 @@ contract Account {
             ironOwnerCount[msg.sender].sub(iron);
             stoneOwnerCount[msg.sender].sub(stone);
             coinOwnerCount[msg.sender].sub(coin);
-            // ChangeFoodOwnerCount(foodOwnerCount[msg.sender]);
-            // ChangeWoodOwnerCount(woodOwnerCount[msg.sender]);
-            // ChangeIronOwnerCount(ironOwnerCount[msg.sender]);
-            // ChangeStoneOwnerCount(stoneOwnerCount[msg.sender]);
-            // ChangeCoinOwnerCounC(coinOwnerCount[msg.sender]);
             return true;
         }
         return false;

@@ -10,19 +10,19 @@ contract Attack is Account, Soldier, SafeMath {
         while (powerGap >= 0){
             if(numOfArcher[winner] > 0){
                 numOfArcher[winner]--;
-                powerGap.sub(levelOfArcher);
+                powerGap -= levelOfArcher;
             }
             if(numOfCavalry[winner] > 0){
                 numOfCavalry[winner]--;
-                powerGap.sub(levelOfCavalry);
+                powerGap -= levelOfCavalry;
             }
             if(numOfInfantry[winner] > 0){
                 numOfInfantry[winner]--;
-                powerGap.sub(levelOfInfantry);
+                powerGap -= levelOfInfantry;
             }
             if(numOfPikemen[winner] > 0){
                 numOfPikemen[winner]--;
-                powerGap.sub(levelOfPikemen);
+                powerGap -= levelOfPikemen;
             }
         }
         numOfArcher[loser].sub(numOfArcher[loser] * 0.8);
