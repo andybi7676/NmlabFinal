@@ -8,7 +8,7 @@ contract Earning is Ownable, BuildingFactory {
     
     uint speedUpFee = 0.002 ether;
     uint resourceFee = 0.001 ether;
-    uint getResource = 100;
+    uint getResourceNum = 100;
 
     function withdraw() external onlyOwner {
         address payable _owner = address(uint160(owner()));
@@ -22,7 +22,7 @@ contract Earning is Ownable, BuildingFactory {
     function speedupBuilding() external payable returns(uint){
         address _owner = msg.sender;
         require(msg.value == speedUpFee);
-        ownerStartBuildTime[_owner] = ownerStartBuildTime[_owner] + buildings[buildingID].level * buildTimeNeed * 0.5;
+        ownerStartBuildTime[_owner] = ownerStartBuildTime[_owner] + buildings[ownerBuildingId[_owner]].level * buildTimeNeed / 2;
         return _updateBuild(_owner);
     }
 
@@ -30,23 +30,23 @@ contract Earning is Ownable, BuildingFactory {
         resourceFee = _fee;
     }
 
-    function getResource(string _name) external payable {
+    function getResource(string calldata _name) external payable {
         address _owner = msg.sender;
         require(msg.value == resourceFee);
-        if ( _name == "Rock") {
-            rockOwnerCount[_owner] = rockOwnerCount[_owner].add(getResource);
+        if ( keccak256(bytes(_name)) == keccak256(bytes("Stone"))) {
+            stoneOwnerCount[_owner] = stoneOwnerCount[_owner].add(getResourceNum);
         }
-        else if (_name == "Ore") {
-            oreOwnerCount[_owner] = oreOwnerCount[_owner].add(getResource);
+        else if (keccak256(bytes(_name)) == keccak256(bytes("Iron"))) {
+            ironOwnerCount[_owner] = ironOwnerCount[_owner].add(getResourceNum);
         }
-        else if (_name == "Food") {
-            foodOwnerCount[_owner] = foodOwnerCount[_owner].add(getResource);
+        else if (keccak256(bytes(_name)) == keccak256(bytes("Food"))) {
+            foodOwnerCount[_owner] = foodOwnerCount[_owner].add(getResourceNum);
         }
-        else if (_name == "Coin") {
-            coinOwnerCount[_owner] = coinOwnerCount[_owner].add(getResource);
+        else if (keccak256(bytes(_name)) == keccak256(bytes("Coin"))) {
+            coinOwnerCount[_owner] = coinOwnerCount[_owner].add(getResourceNum);
         }
-        else if (_name == "Wood") {
-            woodOwnerCount[_owner] = woodOwnerCount[_owner].add(getResource);
+        else if (keccak256(bytes(_name)) == keccak256(bytes("Wood"))) {
+            woodOwnerCount[_owner] = woodOwnerCount[_owner].add(getResourceNum);
         }
     }
 }
