@@ -2,6 +2,7 @@ pragma solidity >=0.4.21 <0.7.0;
 
 import "./Account.sol";
 import "./Soldier.sol";
+import "./SafeMath.sol";
 
 contract Attack is Account, Soldier, SafeMath {
 

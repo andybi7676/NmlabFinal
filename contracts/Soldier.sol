@@ -3,15 +3,6 @@ pragma solidity >=0.4.21 <0.7.0;
 import "./Account.sol";
 
 contract Soldier is Account{
-    event ChangeCavalryNum(uint num);
-    event ChangeInfantryNum(uint num);
-    event ChangePikemenNum(uint num);
-    event ChangeArcherNum(uint num);
-    event ChangeCavalrylevel(uint8 level);
-    event ChangeInfantrylevel(uint8 level);
-    event ChangePikemenlevel(uint8 level);
-    event ChangeArcherlevel(uint8 level);
-
     mapping (address => uint) public numOfCavalry;
     mapping (address => uint) public numOfInfantry;
     mapping (address => uint) public numOfPikemen;

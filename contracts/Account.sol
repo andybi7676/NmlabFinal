@@ -3,21 +3,13 @@ pragma solidity >=0.4.21 <0.7.0;
 import "./SafeMath.sol";
 
 contract Account {
-    event ChangeFoodOwnerCount(uint num);
-    event ChangeWoodOwnerCount(uint num);
-    event ChangeIronOwnerCount(uint num);
-    event ChangeStoneOwnerCount(uint num);
-    event ChangeCoinOwnerCount(uint num);
-    event ChangePower(uint num);
-    event LackOfResources();
-    event NewCastle(string name, uint id);
+    using SafeMath for uint;
 
-
-    mapping (address => uint) public foodOwnerCount;
-    mapping (address => uint) public woodOwnerCount;
-    mapping (address => uint) public ironOwnerCount;
     mapping (address => uint) public stoneOwnerCount;
+    mapping (address => uint) public ironOwnerCount;
+    mapping (address => uint) public foodOwnerCount;
     mapping (address => uint) public coinOwnerCount;
+    mapping (address => uint) public woodOwnerCount;
     mapping (address => uint) public power;
 
     mapping (uint => address) public castleToOwner;
@@ -46,7 +38,7 @@ contract Account {
     }
 
     function _cost(uint food, uint wood, uint iron, uint stone, uint coin) internal returns (bool){
-        if((foodOwnerCount[msg.sender]>=food) && (woodOwnerCount[msg.sender]>=wood) && (ironOwnerCount[msg.sender]>=iron) && (stoneOwnerCount[msg.sender]>=stone) && (coinOwnerCount[msg.sender]>=coin)){
+        if(foodOwnerCount[msg.sender]>=food && woodOwnerCount[msg.sender]>=wood && ironOwnerCount[msg.sender]>=iron && stoneOwnerCount[msg.sender]>=stone && coinOwnerCount[msg.sender]>=coin){
             foodOwnerCount[msg.sender].sub(food);
             woodOwnerCount[msg.sender].sub(wood);
             ironOwnerCount[msg.sender].sub(iron);
@@ -57,4 +49,23 @@ contract Account {
         return false;
     }
 
+    function getFoodAmount() public view returns(uint) {
+        return foodOwnerCount[msg.sender];
+    }
+
+    function getIronAmount() public view returns(uint) {
+        return ironOwnerCount[msg.sender];
+    }
+
+    function getStoneAmount() public view returns(uint) {
+        return stoneOwnerCount[msg.sender];
+    }
+
+    function getCoinAmount() public view returns(uint) {
+        return coinOwnerCount[msg.sender];
+    }
+
+    function getWoodAmount() public view returns(uint) {
+        return woodOwnerCount[msg.sender];
+    }
 }

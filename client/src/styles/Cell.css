@@ -1,0 +1,25 @@
+.Cell_1x1 {
+  /* background-color: #FFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; */
+  width: 10vh;
+  height: 10vh;
+  font-size: 12px;
+  transition: 0.5s ease-out;
+  /* color: #6CC; */
+  position: absolute;
+  transform: rotate(45deg);
+  cursor: pointer;
+  z-index: 1;
+}
+
+.Cell_1x1:focus {
+  outline: none;
+}
+
+.Cell_1x1:hover {
+  background-color: #999;
+  color: #fff;
+}
