@@ -13,11 +13,11 @@ contract Account {
     event LackOfResources();
 
     event ChangeCavalryNum(uint num);
-    event ChangeInfantrNum(uint num);
+    event ChangeInfantryNum(uint num);
     event ChangePikemenNum(uint num);
     event ChangeArcherNum(uint num);
     event ChangeCavalrylevel(uint8 level);
-    event ChangeInfantrlevel(uint8 level);
+    event ChangeInfantrylevel(uint8 level);
     event ChangePikemenlevel(uint8 level);
     event ChangeArcherlevel(uint8 level);
 
@@ -26,8 +26,6 @@ contract Account {
     mapping (address => uint) public iron;
     mapping (address => uint) public stone;
     mapping (address => uint) public coin;
-    mapping (address => uint) public population;
-    mapping (address => uint) public populationRestriction;
     mapping (address => uint) public power;
 
     mapping (address => uint) public numOfCavalry;
@@ -39,11 +37,4 @@ contract Account {
     mapping (address => uint8) public levelOfInfantry;
     mapping (address => uint8) public levelOfPikemen;
     mapping (address => uint8) public levelOfArcher;
-
-    mapping (address => uint) public rockOwnerCount;
-    mapping (address => uint) public oreOwnerCount;
-    mapping (address => uint) public foodOwnerCount;
-    mapping (address => uint) public coinOwnerCount;
-    mapping (address => uint) public woodOwnerCount;
-
 }
