@@ -5,30 +5,33 @@ import "./Castle.sol";
 
 contract QuarryFactory is CastleFactory {
     
-    using SafeMath for uint;
-    
-    mapping (address => uint) public ownerStoneProduceTime;
-    uint produceStoneAbility = 1;
+    mapping (address => uint) public ownerRockProduceTime;
+    uint produceRockAbility = 1;
 
 
     function _createQuarry(uint _x, uint _y) internal {
         _createBuilding("Quarry", _x, _y);
-        _updateProduceStone(msg.sender);
+        _updateProduceRock(msg.sender);
     }
 
+    function _startBuildQuarry(address _owner, uint _x, uint _y) internal {
+        quarryID = _getBuildingByOwner(_owner, "Quarry", _x, _y);
+        require(buildings[quaryID].add(1) <= castleLevel[_owner]);
+        _startBuild(quarryID);
+    }
     
-    function _updateProduceStone(address _owner) internal {
-        uint[] memory quarries = getSpecificBuildingByOwner(_owner, "Quarry");
-        if (quarries.length > 1){
-            while (now > ownerStoneProduceTime[_owner].add(10 seconds)) {
+    function _updateProduceRock(address _owner) internal {
+        quarries = _getSpecificBuildingByOwner(_owner, "Quarry");
+        if (quarrries.length > 1){
+            while (now > ownerRockProduceTime[_owner].add(10 seconds)) {
                 for (uint i = 1; i < quarries.length; i++) {
-                    stoneOwnerCount[_owner] = stoneOwnerCount[_owner].add(buildings[quarries[i]].level * produceStoneAbility );
+                    rockOwnerCount[_owner] = rockOwnerCount[_owner].add(buildings[quarries[i]].level * produceRockAbility );
                 }
-                ownerStoneProduceTime[_owner] = ownerStoneProduceTime[_owner].add(10 seconds);
+                ownerRockProduceTime[_owner] = ownerRockProduceTime[_owner].add(10 seconds);
             }
         }
         else {
-            ownerStoneProduceTime[_owner] = now;
+            ownerRockProduceTime[_owner] = now;
         }
     }
 }
