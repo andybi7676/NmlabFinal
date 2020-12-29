@@ -7,13 +7,13 @@ import "./Farm.sol";
 import "./Manor.sol";
 import "./Sawmill.sol";
 
-contract Produce is Quarry, Mine, Farm, Manor, Sawmill {
+contract Produce is QuarryFactory, MineFactory, FarmFactory, ManorFactory, SawmillFactory {
 
     function _updateProduce(address _owner) internal {
         _updateProduceCoin(_owner);
-        _updateProduceOre(_owner);
+        _updateProduceIron(_owner);
         _updateProduceFood(_owner);
-        _updateProduceRock(_owner);
+        _updateProduceStone(_owner);
         _updateProduceWood(_owner);
     }
 
