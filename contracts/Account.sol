@@ -28,4 +28,26 @@ contract Account {
         }
         return false;
     }
+
+    function getFoodAmount() public view returns(uint) {
+        return foodOwnerCount[msg.sender];
+    }
+
+    function getIronAmount() public view returns(uint) {
+        return ironOwnerCount[msg.sender];
+    }
+
+    function getStoneAmount() public view returns(uint) {
+        return stoneOwnerCount[msg.sender];
+    }
+
+    function getCoinAmount() public view returns(uint) {
+        return coinOwnerCount[msg.sender];
+    }
+
+    function getWoodAmount() public view returns(uint) {
+        return woodOwnerCount[msg.sender];
+    }
+
+
 }

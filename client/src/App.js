@@ -47,7 +47,6 @@ const App = () => {
     <ContractContext.Provider value={state}>
       <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
         <Navbar />
-        <br />
         <GameScene />
         {/* <Map /> */}
         <br />

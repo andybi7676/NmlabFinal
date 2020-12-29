@@ -33,6 +33,10 @@ contract BuildingFactory is Account {
 
 
     function createBuilding(string memory _name, uint _x, uint _y) public returns(uint){
+        if(buildings.length == 0) {
+            buildings.push(Building("first_building!", 0, 0, 1000));
+            buildingToOwner[0] = address(0);
+        }
         uint id = buildings.push(Building(_name, _x, _y, 1)).sub(1);
         _cost(0, buildResourceNeed, buildResourceNeed, buildResourceNeed, buildResourceNeed);
         buildingToOwner[id] = msg.sender;
@@ -61,7 +65,9 @@ contract BuildingFactory is Account {
     }
 
     function startBuild(address _owner, uint _x, uint _y) public returns(uint){
-        uint buildingID = getBuildingByOwner(_owner, _x, _y);
+        uint buildingID;
+        (buildingID,) = getBuildingByOwner(_owner, _x, _y);
+        if(buildingID == 0) return 0;
         if (keccak256(bytes(buildings[buildingID].name)) != keccak256(bytes("Castle"))) {
             require(castleLevel[_owner] >= buildings[buildingID].level.add(1));
         }
@@ -85,15 +91,29 @@ contract BuildingFactory is Account {
         }
     }
 
-    function getBuildingByOwner(address _owner, uint _placeX, uint _placeY) public view returns(uint) {
-        for (uint i = 0; i < buildings.length; i++) {
+    function getBuildingById(uint idx) public view returns(bool, string memory, uint) {
+        if(idx >= buildings.length) {
+            return (false, "invalid building id", 0);
+        }
+        else {
+            return (true, buildings[idx].name, buildings[idx].level);
+        }
+    }
+
+    function getBuildingsLen() public view returns(uint) {
+        return buildings.length;
+    }
+
+    function getBuildingByOwner(address _owner, uint _placeX, uint _placeY) public view returns(uint, string memory) {
+        uint i = 0;
+        for (i; i < buildings.length; i++) {
             if (buildingToOwner[i] == _owner) {
                 if (buildings[i].placeX == _placeX && buildings[i].placeX == _placeY) {
-                    return i;
+                    return (i, buildings[i].name);
                 }
             }
         }
-        return -1;
+        return (0, "None");
     }
 
     function getBuildingsByOwner(address _owner) public view returns(uint[] memory) {

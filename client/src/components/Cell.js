@@ -1,12 +1,13 @@
 import React, { useState, useContext, useEffect } from "react";
 import { ContractContext } from "../App";
 import "../styles/Cell.css";
-import { Popup } from 'semantic-ui-react'
+import { Dropdown } from 'semantic-ui-react'
 import Building from "./Building"
 import PopupContent from './PopupContent'
 
+const TYPES = ["None", "Farm", "Mine"];
 
-const Cell = ({ x, y }) => {
+const Cell = ({ x, y, setPopup, reload }) => {
   const state = useContext(ContractContext);
   const [ type, setType ] = useState("None");
   const [ CellStyle, setCellStyle ] = useState({
@@ -32,33 +33,38 @@ const Cell = ({ x, y }) => {
     });
   }
 
-  const createBuilding = async (newType) => {
-    const { contract, accounts } = state;
-    
-  }
-
   useEffect(() => {
-    console.log(state);
-    if(state.contract !== null) {
-      state.contract.methods.buildings().call((err, msg)=>console.log(msg));
+    const { contract, accounts } = state;
+    const initialize = async () => {
+      const building = await contract.methods.getBuildingByOwner(accounts[0], x, y).call({from: accounts[0]});
+      const initType = building[1];
+      console.log(initType);
+      setType(initType);
     }
-  }, [state]);
+    if(contract !== null && accounts.length > 0) {
+      initialize();
+    }
+  }, [state, reload]);
 
   return <>
-    <Popup
+    <div className="Cell_1x1" tabIndex="1" id={`Cell-${x}*${y}`} style={CellStyle} 
+      onMouseEnter={() => onHover()} 
+      onMouseLeave={() => unHover()} 
+      onClick={() => setPopup(true, type, x, y)}>
+      <Building type={type}/>
+    </div>
+  </>
+
+    {/* <Popup
       content={
-        <PopupContent type={type} />
+        
       }
       on='click'
       popper={{ id: 'popper-container', style: { zIndex: 2 } }}
       trigger={
-        <div className="Cell_1x1" tabIndex="1" id={`Cell-${x}*${y}`} style={CellStyle} onMouseEnter={() => onHover()} onMouseLeave={() => unHover()}>
-          <Building type={type}/>
-        </div>
+        
       }
-    />
-  </>
-
+    /> */}
 }
 
 export default Cell;

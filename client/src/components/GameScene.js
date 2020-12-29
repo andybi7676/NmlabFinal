@@ -4,7 +4,7 @@ import { Grid, Menu } from 'semantic-ui-react';
 
 const GameScene = () => {
   return (
-    <Grid celled>
+    <Grid celled style={{margin: "0"}}>
     <Grid.Row>
       <Grid.Column width={3}>
         <Menu />
