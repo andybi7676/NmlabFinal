@@ -19,9 +19,9 @@ contract QuarryFactory is CastleFactory {
     
     function _updateProduceStone(address _owner) internal {
         uint[] memory quarries = getSpecificBuildingByOwner(_owner, "Quarry");
-        if (quarries.length > 1){
+        if (quarries.length > 0){
             while (now > ownerStoneProduceTime[_owner].add(10 seconds)) {
-                for (uint i = 1; i < quarries.length; i++) {
+                for (uint i = 0; i < quarries.length; i++) {
                     stoneOwnerCount[_owner] = stoneOwnerCount[_owner].add(buildings[quarries[i]].level * produceStoneAbility );
                 }
                 ownerStoneProduceTime[_owner] = ownerStoneProduceTime[_owner].add(10 seconds);

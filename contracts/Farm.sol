@@ -18,9 +18,9 @@ contract FarmFactory is CastleFactory {
 
     function _updateProduceFood(address _owner) internal {
         uint[] memory farms = getSpecificBuildingByOwner(_owner, "Farm");
-        if (farms.length > 1){
+        if (farms.length > 0){
             while (now > ownerFoodProduceTime[_owner].add(10 seconds)) {
-                for (uint i = 1; i < farms.length; i++) {
+                for (uint i = 0; i < farms.length; i++) {
                     foodOwnerCount[_owner] = foodOwnerCount[_owner].add(buildings[farms[i]].level * produceFoodAbility );
                 }
                 ownerFoodProduceTime[_owner] = ownerFoodProduceTime[_owner].add(10 seconds);

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { useState, useContext, useEffect } from "react";
-import BuildingFactoryContract from "./contracts/BuildingFactory.json";
+import ProduceContract from "./contracts/Produce.json";
 import getWeb3 from "./getWeb3";
 import { Navbar, GameScene } from './components';
 
@@ -21,9 +21,9 @@ const App = () => {
         const accounts = await web3.eth.getAccounts();
         // Get the contract instance.
         const networkId = await web3.eth.net.getId();
-        const deployedNetwork = BuildingFactoryContract.networks[networkId];
+        const deployedNetwork = ProduceContract.networks[networkId];
         const instance = new web3.eth.Contract(
-          BuildingFactoryContract.abi,
+          ProduceContract.abi,
           deployedNetwork && deployedNetwork.address,
         );
         // Set web3, accounts, and contract to the state, and then proceed with an
