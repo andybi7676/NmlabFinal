@@ -55,16 +55,6 @@ const Cell = ({ x, y, setPopup, reload }) => {
     </div>
   </>
 
-    {/* <Popup
-      content={
-        
-      }
-      on='click'
-      popper={{ id: 'popper-container', style: { zIndex: 2 } }}
-      trigger={
-        
-      }
-    /> */}
 }
 
 export default Cell;

@@ -18,9 +18,9 @@ contract ManorFactory is CastleFactory {
 
     function _updateProduceCoin(address _owner) internal {
         uint[] memory manors = getSpecificBuildingByOwner(_owner, "Manor");
-        if (manors.length > 1){
+        if (manors.length > 0){
             while (now > ownerCoinProduceTime[_owner].add(10 seconds)) {
-                for (uint i = 1; i < manors.length; i++) {
+                for (uint i = 0; i < manors.length; i++) {
                     coinOwnerCount[_owner] = coinOwnerCount[_owner].add(buildings[manors[i]].level * produceCoinAbility );
                 }
                 ownerCoinProduceTime[_owner] = ownerCoinProduceTime[_owner].add(10 seconds);

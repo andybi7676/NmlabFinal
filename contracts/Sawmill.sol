@@ -18,9 +18,9 @@ contract SawmillFactory is CastleFactory {
 
     function _updateProduceWood(address _owner) internal {
         uint[] memory sawmills = getSpecificBuildingByOwner(_owner, "Sawmill");
-        if (sawmills.length > 1){
+        if (sawmills.length > 0){
             while (now > ownerWoodProduceTime[_owner].add(10 seconds)) {
-                for (uint i = 1; i < sawmills.length; i++) {
+                for (uint i = 0; i < sawmills.length; i++) {
                     woodOwnerCount[_owner] = woodOwnerCount[_owner].add(buildings[sawmills[i]].level * produceWoodAbility );
                 }
                 ownerWoodProduceTime[_owner] = ownerWoodProduceTime[_owner].add(10 seconds);

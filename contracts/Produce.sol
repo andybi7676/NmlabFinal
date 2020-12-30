@@ -9,7 +9,7 @@ import "./Sawmill.sol";
 
 contract Produce is QuarryFactory, MineFactory, FarmFactory, ManorFactory, SawmillFactory {
 
-    function _updateProduce(address _owner) internal {
+    function updateProduce(address _owner) public {
         _updateProduceCoin(_owner);
         _updateProduceIron(_owner);
         _updateProduceFood(_owner);

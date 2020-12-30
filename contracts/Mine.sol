@@ -18,9 +18,9 @@ contract MineFactory is CastleFactory {
 
     function _updateProduceIron(address _owner) internal {
         uint[] memory mines = getSpecificBuildingByOwner(_owner, "Mine");
-        if (mines.length > 1){
+        if (mines.length > 0){
             while (now > ownerIronProduceTime[_owner].add(10 seconds)) {
-                for (uint i = 1; i < mines.length; i++) {
+                for (uint i = 0; i < mines.length; i++) {
                     ironOwnerCount[_owner] = ironOwnerCount[_owner].add(buildings[mines[i]].level * produceIronAbility );
                 }
                 ownerIronProduceTime[_owner] = ownerIronProduceTime[_owner].add(10 seconds);

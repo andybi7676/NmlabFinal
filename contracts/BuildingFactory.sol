@@ -108,7 +108,7 @@ contract BuildingFactory is Account {
         uint i = 0;
         for (i; i < buildings.length; i++) {
             if (buildingToOwner[i] == _owner) {
-                if (buildings[i].placeX == _placeX && buildings[i].placeX == _placeY) {
+                if (buildings[i].placeX == _placeX && buildings[i].placeY == _placeY) {
                     return (i, buildings[i].name);
                 }
             }
@@ -162,6 +162,5 @@ contract BuildingFactory is Account {
         }
         return result;
     }
-
     
 }
