@@ -13,28 +13,23 @@ contract Account {
     mapping (address => uint) public power;
 
     mapping (uint => address) public castleToOwner;
-    mapping (address => uint) public onwerCastleCount;
+    mapping (address => uint) public ownerCastleCount;
 
     uint IdDigits = 16;
     uint IdModulus = 10 ** IdDigits;
 
-    function _createCastle(string _name, uint _id) internal {
-        castleToOwner[_id] = msg.sender;
-        ownerCastleCount[msg.sender]++;
-        NewCastle(_name, _id);
-    }
-
-    function _generateRandomId(string _str) private view returns (uint) {
-        uint rand = uint(keccak256(_str));
+    function _generateRandomId(string memory _str) private view returns (uint) {
+        uint rand = uint(keccak256(abi.encodePacked(_str)));
         return rand % IdModulus;
     }
 
     // for web to create castle
-    function createRandomCastle(string _name) public {
+    function createRandomCastle(string memory _name) public {
         require(ownerCastleCount[msg.sender] == 0);
         uint randId = _generateRandomId(_name);
         randId = randId - randId % 100;
-        _createCastle(_name, randId);
+        castleToOwner[randId] = msg.sender;
+        ownerCastleCount[msg.sender]++;
     }
 
     function _cost(uint food, uint wood, uint iron, uint stone, uint coin) internal returns (bool){
