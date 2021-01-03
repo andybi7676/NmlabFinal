@@ -71,6 +71,7 @@ contract BuildingFactory is Account {
         if (keccak256(bytes(buildings[buildingID].name)) != keccak256(bytes("Castle"))) {
             require(castleLevel[_owner] >= buildings[buildingID].level.add(1));
         }
+        if(ownerStartBuildTime[_owner] != 0)  return 0;
         ownerBuildingId[_owner] = buildingID;
         ownerStartBuildTime[_owner] = now;
         uint buildingResourceNeed = buildings[buildingID].level * buildResourceNeed;
