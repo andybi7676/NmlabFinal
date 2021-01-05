@@ -16,9 +16,11 @@ const Navbar = () => {
   const [ updateResources, setUpdateResources ] = useState(0);
 
   useEffect(() => {
+    if(updateResources === 0) return;
     const { contract, accounts } = state;
     const getResource = async () => {
-      await contract.methods.updateProduce(accounts[0]).send({from: accounts[0]});
+      const result = await contract.methods.updateProduce(accounts[0]).send({from: accounts[0]});
+      console.log(result);
       const wood = await contract.methods.getWoodAmount().call({from: accounts[0]});
       const food = await contract.methods.getFoodAmount().call({from: accounts[0]});
       const iron = await contract.methods.getIronAmount().call({from: accounts[0]});
@@ -29,7 +31,7 @@ const Navbar = () => {
     if(contract !== null && accounts.length > 0) {
       getResource()
     }
-  }, [state, updateResources]);
+  }, [updateResources]);
 
   return (
     <div className="navbar">

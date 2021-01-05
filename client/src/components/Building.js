@@ -1,6 +1,5 @@
 import React from 'react';
 import { Dropdown, Button, Icon } from 'semantic-ui-react';
-import Farm from './Farm';
 
 const Building = ({ type , level  }) => {
   const create = () => {

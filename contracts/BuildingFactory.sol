@@ -69,7 +69,7 @@ contract BuildingFactory is Account {
         (buildingID,) = getBuildingByOwner(_owner, _x, _y);
         if(buildingID == 0) return 0;
         if (keccak256(bytes(buildings[buildingID].name)) != keccak256(bytes("Castle"))) {
-            require(castleLevel[_owner] >= buildings[buildingID].level.add(1));
+            // require(castleLevel[_owner] >= buildings[buildingID].level.add(1));
         }
         if(ownerStartBuildTime[_owner] != 0)  return 0;
         ownerBuildingId[_owner] = buildingID;
@@ -77,6 +77,17 @@ contract BuildingFactory is Account {
         uint buildingResourceNeed = buildings[buildingID].level * buildResourceNeed;
         _cost(0, buildingResourceNeed, buildingResourceNeed, buildingResourceNeed, buildingResourceNeed);
         return buildings[buildingID].level * buildTimeNeed;
+    }
+
+    function getRemainingTime(address _owner) public view returns(uint) {
+        uint buildingID = ownerBuildingId[_owner];
+        if (ownerStartBuildTime[_owner] != 0 && now >= ownerStartBuildTime[_owner] + buildings[buildingID].level * buildTimeNeed) {
+            return 0;
+        }
+        else {
+            uint remainingTime = ownerStartBuildTime[_owner] + buildings[buildingID].level * buildTimeNeed - now;
+            return remainingTime;
+        }
     }
     
     function updateBuild(address _owner) public returns(uint){

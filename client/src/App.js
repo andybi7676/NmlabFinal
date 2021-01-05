@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-import { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import ProduceContract from "./contracts/Produce.json";
 import getWeb3 from "./getWeb3";
 import { Navbar, GameScene } from './components';
@@ -43,16 +42,22 @@ const App = () => {
     // }
   }, []);
 
-  return (
-    <ContractContext.Provider value={state}>
-      <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
-        <Navbar />
-        <GameScene />
-        {/* <Map /> */}
-        <br />
-      </div>
-    </ContractContext.Provider>
-  )
+  return <>
+    {
+      (state.contract && state.accounts)
+      ? 
+      <ContractContext.Provider value={state}>
+        <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+          <Navbar />
+          <GameScene />
+          {/* <Map /> */}
+          <br />
+        </div>
+      </ContractContext.Provider>
+      :
+      <p>loading...</p>
+    }
+  </>
 
 }
 
