@@ -2,9 +2,6 @@ import React from 'react';
 import { Dropdown, Button, Icon } from 'semantic-ui-react';
 
 const Building = ({ type , level  }) => {
-  const create = () => {
-    console.log("creating building");
-  }
 
   if(type === "None") {
     

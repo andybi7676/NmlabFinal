@@ -3,7 +3,7 @@ import { Button, Modal, Grid, Icon, Segment, Header } from 'semantic-ui-react';
 
 const PRODUCTION_RATE = 10;
 
-const Farm = ({ x, y, index, contract, account, makeReload }) => {
+const Mine = ({ x, y, index, contract, account, makeReload }) => {
   const [ level, setLevel ] = useState(1);
   const getLevel = async() => {
     const building = await contract.methods.getBuildingById(index).call({from: account});
@@ -42,23 +42,23 @@ const Farm = ({ x, y, index, contract, account, makeReload }) => {
               <Header as='h4'>
                 Level
               </Header>
-              <Segment textAlign='center' compact color='grey' size='tiny'>
+              <Segment textAlign='center' compact color='black' size='tiny'>
                 {level}
               </Segment>
               <Header as='h4'>
                 Production rate
               </Header>
-              <Segment textAlign='center' compact color='grey' size='tiny'>
+              <Segment textAlign='center' compact color='black' size='tiny'>
                 {level*PRODUCTION_RATE}
               </Segment>
           </Grid.Column>
           <Grid.Column>
             <Header icon>
-              Farm
-              <Icon name='food' style={{ color: 'gainsboro' }}/>
+              Mine
+              <Icon name='lock' style={{ color: 'black' }}/>
             </Header>
-            <Segment padded color='grey'>
-              <p>produce food</p>
+            <Segment padded color='black'>
+              <p>produce iron</p>
             </Segment>
             <div style={{textAlign: 'center'}}>
               <Button primary onClick={() => upgradeBuilding()} >upgrade</Button>
@@ -70,4 +70,4 @@ const Farm = ({ x, y, index, contract, account, makeReload }) => {
   </>
 }
 
-export default Farm;
+export default Mine;

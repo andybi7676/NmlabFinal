@@ -16,7 +16,7 @@ const Map = () => {
 
   const [ reload, setReload ] = useState(false);
 
-  const cellAry = [[10, 10], [130, 50], [380, 270], [280, 100], [40, 300]];
+  const cellAry = [[10, 10], [130, 50], [380, 270], [280, 100], [40, 300], [800, 500], [1000, 300], [900, 100], [700, 400]];
 
   const setPopup = (visible, type, x, y, index) => {
     setPopupState({

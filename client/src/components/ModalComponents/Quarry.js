@@ -3,7 +3,7 @@ import { Button, Modal, Grid, Icon, Segment, Header } from 'semantic-ui-react';
 
 const PRODUCTION_RATE = 10;
 
-const Farm = ({ x, y, index, contract, account, makeReload }) => {
+const Quarry = ({ x, y, index, contract, account, makeReload }) => {
   const [ level, setLevel ] = useState(1);
   const getLevel = async() => {
     const building = await contract.methods.getBuildingById(index).call({from: account});
@@ -54,11 +54,11 @@ const Farm = ({ x, y, index, contract, account, makeReload }) => {
           </Grid.Column>
           <Grid.Column>
             <Header icon>
-              Farm
-              <Icon name='food' style={{ color: 'gainsboro' }}/>
+              Quarry
+              <Icon name='hand rock' style={{ color: 'gray' }}/>
             </Header>
             <Segment padded color='grey'>
-              <p>produce food</p>
+              <p>produce stone</p>
             </Segment>
             <div style={{textAlign: 'center'}}>
               <Button primary onClick={() => upgradeBuilding()} >upgrade</Button>
@@ -70,4 +70,4 @@ const Farm = ({ x, y, index, contract, account, makeReload }) => {
   </>
 }
 
-export default Farm;
+export default Quarry;
