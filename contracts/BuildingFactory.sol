@@ -32,34 +32,34 @@ contract BuildingFactory is Account {
     mapping (address => uint) ownerBarrackCount;
 
 
-    function createBuilding(string memory _name, uint _x, uint _y) public returns(uint){
+    function _createBuilding(address _creator, string memory _name, uint _x, uint _y) internal returns(uint){
         if(buildings.length == 0) {
             buildings.push(Building("first_building!", 0, 0, 1000));
             buildingToOwner[0] = address(0);
         }
         uint id = buildings.push(Building(_name, _x, _y, 1)).sub(1);
         _cost(0, buildResourceNeed, buildResourceNeed, buildResourceNeed, buildResourceNeed);
-        buildingToOwner[id] = msg.sender;
+        buildingToOwner[id] = _creator;
         if (keccak256(bytes(_name)) == keccak256(bytes("Farm"))) {
-            ownerFarmCount[msg.sender] = ownerFarmCount[msg.sender].add(1);
+            ownerFarmCount[_creator] = ownerFarmCount[_creator].add(1);
         }
         else if (keccak256(bytes(_name)) == keccak256(bytes("Mine"))) {
-            ownerMineCount[msg.sender] = ownerMineCount[msg.sender].add(1);
+            ownerMineCount[_creator] = ownerMineCount[_creator].add(1);
         }
         else if (keccak256(bytes(_name)) == keccak256(bytes("Manor"))) {
-            ownerManorCount[msg.sender] = ownerManorCount[msg.sender].add(1);
+            ownerManorCount[_creator] = ownerManorCount[_creator].add(1);
         }
         else if (keccak256(bytes(_name)) == keccak256(bytes("Quarry"))) {
-            ownerQuarryCount[msg.sender] = ownerQuarryCount[msg.sender].add(1);
+            ownerQuarryCount[_creator] = ownerQuarryCount[_creator].add(1);
         }
         else if (keccak256(bytes(_name)) == keccak256(bytes("Sawmill"))) {
-            ownerSawmillCount[msg.sender] = ownerSawmillCount[msg.sender].add(1);
+            ownerSawmillCount[_creator] = ownerSawmillCount[_creator].add(1);
         }
         else if (keccak256(bytes(_name)) == keccak256(bytes("Cellar"))) {
-            ownerCellarCount[msg.sender] = ownerCellarCount[msg.sender].add(1);
+            ownerCellarCount[_creator] = ownerCellarCount[_creator].add(1);
         }
         else if (keccak256(bytes(_name)) == keccak256(bytes("Barrack"))) {
-            ownerBarrackCount[msg.sender] = ownerBarrackCount[msg.sender].add(1);
+            ownerBarrackCount[_creator] = ownerBarrackCount[_creator].add(1);
         }
         return id;
     }
@@ -141,7 +141,7 @@ contract BuildingFactory is Account {
     }
 
     function getSpecificBuildingByOwner(address _owner, string memory _name) public view returns(uint[] memory) {
-        uint buildingsLength;
+        uint buildingsLength = 0;
         if (keccak256(bytes(_name)) == keccak256(bytes("Farm"))) {
            buildingsLength = ownerFarmCount[_owner];
         }

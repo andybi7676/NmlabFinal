@@ -31,7 +31,7 @@ const Navbar = () => {
     if(contract !== null && accounts.length > 0) {
       getResource()
     }
-  }, [updateResources]);
+  }, [updateResources, state]);
 
   return (
     <div className="navbar">

@@ -1,13 +1,17 @@
 import React from 'react';
-import { Dropdown, Button, Icon } from 'semantic-ui-react';
+
+import { Dropdown, Button, Icon, Image } from 'semantic-ui-react';
+import farm from '../images/farm.png';
 
 const Building = ({ type , level  }) => {
 
+  const height = 100;
   if(type === "None") {
     
   }
   if(type === "Farm") {
-    return <Icon name='food'  size='huge' style={{transform: "rotate(-45deg)", color: "gainsboro"}} />
+    return <Image src={farm} style={{transform: "rotate(-45deg)", zIndex: "3", height: `${188}%`, width:`${263}%` ,maxWidth: "500%", position: "relative", top: "1vh", left:"-8.5vh"}}/>
+    // return <Icon name='food'  size='huge' style={{transform: "rotate(-45deg)", color: "gainsboro"}} />
   }
   if(type === "Mine") {
     return <Icon name='lock' color="black" size='huge' style={{transform: "rotate(-45deg)"}} />

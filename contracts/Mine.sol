@@ -10,24 +10,24 @@ contract MineFactory is CastleFactory {
     mapping (address => uint) public ownerIronProduceTime;
     uint produceIronAbility = 1;
 
-    function _createMine(uint _x, uint _y) internal {
-        createBuilding("Mine", _x, _y);
+    function createMine(uint _x, uint _y) public {
+        _createBuilding(msg.sender, "Mine", _x, _y);
         _updateProduceIron(msg.sender);
     }
 
 
     function _updateProduceIron(address _owner) internal {
         uint[] memory mines = getSpecificBuildingByOwner(_owner, "Mine");
-        if (mines.length > 0){
-            while (now > ownerIronProduceTime[_owner].add(10 seconds)) {
-                for (uint i = 0; i < mines.length; i++) {
-                    ironOwnerCount[_owner] = ironOwnerCount[_owner].add(buildings[mines[i]].level * produceIronAbility );
-                }
-                ownerIronProduceTime[_owner] = ownerIronProduceTime[_owner].add(10 seconds);
-            }
-        }
-        else {
+        if (ownerIronProduceTime[_owner] == 0 || mines.length == 0) {
             ownerIronProduceTime[_owner] = now;
+            return;
         }
+        uint periodCounts = (now - ownerIronProduceTime[_owner]).div(10 seconds);
+        uint produceAbilitySum = 0;
+        for (uint i=0; i<mines.length; i++) {
+            produceAbilitySum += buildings[mines[i]].level * produceIronAbility;
+        }
+        ironOwnerCount[_owner] += periodCounts * produceAbilitySum;
+        ownerIronProduceTime[_owner] += 10 * periodCounts;
     }
 }

@@ -10,25 +10,25 @@ contract FarmFactory is CastleFactory {
     mapping (address => uint) public ownerFoodProduceTime;
     uint produceFoodAbility = 1;
 
-    function _createFarm(uint _x, uint _y) internal {
-        createBuilding("Farm", _x, _y);
+    function createFarm(uint _x, uint _y) public {
+        _createBuilding(msg.sender, "Farm", _x, _y);
         _updateProduceFood(msg.sender);
     }
 
 
     function _updateProduceFood(address _owner) internal {
         uint[] memory farms = getSpecificBuildingByOwner(_owner, "Farm");
-        if (farms.length > 0){
-            while (now > ownerFoodProduceTime[_owner].add(10 seconds)) {
-                for (uint i = 0; i < farms.length; i++) {
-                    foodOwnerCount[_owner] = foodOwnerCount[_owner].add(buildings[farms[i]].level * produceFoodAbility );
-                }
-                ownerFoodProduceTime[_owner] = ownerFoodProduceTime[_owner].add(10 seconds);
-            }
-        }
-        else {
+        if (ownerFoodProduceTime[_owner] == 0 || farms.length == 0) {
             ownerFoodProduceTime[_owner] = now;
+            return;
         }
+        uint periodCounts = (now - ownerFoodProduceTime[_owner]).div(10 seconds);
+        uint produceAbilitySum = 0;
+        for (uint i=0; i<farms.length; i++) {
+            produceAbilitySum += buildings[farms[i]].level * produceFoodAbility;
+        }
+        foodOwnerCount[_owner] += periodCounts * produceAbilitySum;
+        ownerFoodProduceTime[_owner] += 10 * periodCounts;
     }
 
 }

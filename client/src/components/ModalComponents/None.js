@@ -8,7 +8,28 @@ const None = ({ x, y, contract, account, makeReload }) => {
       alert("please wait a minute and try again");
       return;
     }
-    const newBuildingId = await contract.methods.createBuilding(buildType, x, y).send({from: account});
+    let newBuildingId;
+    const { createSawmill, createFarm, createMine, createQuarry, createManor } = contract.methods;
+    switch (buildType) {
+      case "Sawmill":
+        newBuildingId = await createSawmill(x, y).send({from: account});
+        break;
+      case "Farm":
+        newBuildingId = await createFarm(x, y).send({from: account});
+        break;
+      case "Mine":
+        newBuildingId = await createMine(x, y).send({from: account});
+        break;
+      case "Quarry":
+        newBuildingId = await createQuarry(x, y).send({from: account});
+        break;
+      case "Manor":
+        newBuildingId = await createManor(x, y).send({from: account});
+        break;
+        default:
+          console.alert("invalid buildingType");
+          break;
+    }
     console.log(newBuildingId);
     makeReload();
     const buildingLen = await contract.methods.getBuildingsLen().call({from: account});

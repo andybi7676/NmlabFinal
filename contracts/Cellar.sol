@@ -14,8 +14,8 @@ contract CellarFactory is CastleFactory {
     mapping (address => uint) OwnerSaveStone;
     uint SaveResourceAbility = 100;
     
-    function _createCellar(uint _x, uint _y) internal {
-        createBuilding("Cellar", _x, _y);
+    function _createCellar(uint _x, uint _y) public {
+        _createBuilding(msg.sender, "Cellar", _x, _y);
     }
 
     function _saveResource(address _owner) internal {

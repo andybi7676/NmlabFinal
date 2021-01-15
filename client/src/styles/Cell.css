@@ -4,6 +4,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center; */
+  display: flex;
+  align-items: center;
   width: 10vh;
   height: 10vh;
   font-size: 12px;
@@ -12,6 +14,7 @@
   position: absolute;
   transform: rotate(45deg);
   cursor: pointer;
+  overflow: visible;
   z-index: 1;
 }
 

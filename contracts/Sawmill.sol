@@ -10,24 +10,24 @@ contract SawmillFactory is CastleFactory {
     mapping (address => uint) public ownerWoodProduceTime;
     uint produceWoodAbility = 1;
 
-    function _createSawmill(uint _x, uint _y) internal {
-        createBuilding("Sawmill", _x, _y);
+    function createSawmill(uint _x, uint _y) public {
+        _createBuilding(msg.sender, "Sawmill", _x, _y);
         _updateProduceWood(msg.sender);
     }
 
 
     function _updateProduceWood(address _owner) internal {
         uint[] memory sawmills = getSpecificBuildingByOwner(_owner, "Sawmill");
-        if (sawmills.length > 0){
-            while (now > ownerWoodProduceTime[_owner].add(10 seconds)) {
-                for (uint i = 0; i < sawmills.length; i++) {
-                    woodOwnerCount[_owner] = woodOwnerCount[_owner].add(buildings[sawmills[i]].level * produceWoodAbility );
-                }
-                ownerWoodProduceTime[_owner] = ownerWoodProduceTime[_owner].add(10 seconds);
-            }
-        }
-        else {
+        if (ownerWoodProduceTime[_owner] == 0 || sawmills.length == 0) {
             ownerWoodProduceTime[_owner] = now;
+            return;
         }
+        uint periodCounts = (now - ownerWoodProduceTime[_owner]).div(10 seconds);
+        uint produceAbilitySum = 0;
+        for (uint i=0; i<sawmills.length; i++) {
+            produceAbilitySum += buildings[sawmills[i]].level * produceWoodAbility;
+        }
+        woodOwnerCount[_owner] += periodCounts * produceAbilitySum;
+        ownerWoodProduceTime[_owner] += 10 * periodCounts;
     }
 }

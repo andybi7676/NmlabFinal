@@ -5,6 +5,7 @@
 }
 
 .flex_div {
+  height: 500px;
   display: flex;
   justify-content: center;
   overflow: hidden;

@@ -9,8 +9,8 @@ contract BarrackFactory is CastleFactory, Soldier {
     using SafeMath for uint;
     using SafeMath for uint8;
 
-    function _createBarrack(uint _x, uint _y) internal {
-        createBuilding("Barrack", _x, _y);
+    function createBarrack(uint _x, uint _y) public {
+        _createBuilding(msg.sender, "Barrack", _x, _y);
     }
 
     // return 0 if failed (maybe already creating or not enough resource) otherwise return createtime

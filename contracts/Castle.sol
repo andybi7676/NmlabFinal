@@ -7,8 +7,8 @@ contract CastleFactory is BuildingFactory {
 
     using SafeMath for uint;
     
-    function _createCastle(uint _x, uint _y) internal {
-        createBuilding("Castle", _x, _y);
+    function createCastle(uint _x, uint _y) public {
+        _createBuilding(msg.sender, "Castle", _x, _y);
         castleLevel[msg.sender] = 1;
     }
 

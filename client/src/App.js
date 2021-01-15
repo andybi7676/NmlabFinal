@@ -18,6 +18,7 @@ const App = () => {
         const web3 = await getWeb3();
         // Use web3 to get the user's accounts.
         const accounts = await web3.eth.getAccounts();
+        console.log(accounts);
         // Get the contract instance.
         const networkId = await web3.eth.net.getId();
         const deployedNetwork = ProduceContract.networks[networkId];

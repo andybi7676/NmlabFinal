@@ -42,13 +42,13 @@ const Manor = ({ x, y, index, contract, account, makeReload }) => {
               <Header as='h4'>
                 Level
               </Header>
-              <Segment textAlign='center' compact style={{ color: 'gold' }} size='tiny'>
+              <Segment textAlign='center' compact color='yellow' size='tiny'>
                 {level}
               </Segment>
               <Header as='h4'>
                 Production rate
               </Header>
-              <Segment textAlign='center' compact style={{ color: 'gold' }} size='tiny'>
+              <Segment textAlign='center' compact color='yellow' size='tiny'>
                 {level*PRODUCTION_RATE}
               </Segment>
           </Grid.Column>
@@ -57,7 +57,7 @@ const Manor = ({ x, y, index, contract, account, makeReload }) => {
               Manor
               <Icon name='bitcoin' style={{ color: 'gold' }}/>
             </Header>
-            <Segment padded style={{ color: 'gold' }}>
+            <Segment padded color='yellow'>
               <p>produce coin</p>
             </Segment>
             <div style={{textAlign: 'center'}}>
