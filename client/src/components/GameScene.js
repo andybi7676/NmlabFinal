@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext} from 'react';
 import { Map, Battle, Navbar } from './index';
 import { ContractContext } from '../App'
-import { Grid, Menu, Button, Segment } from 'semantic-ui-react';
+import { Grid, Button } from 'semantic-ui-react';
 
 
 const GameScene = () => {
@@ -45,7 +45,7 @@ const GameScene = () => {
       <Navbar makeReload={makeReload} />
       <Grid celled style={{margin: "0"}}>
         <Grid.Row>
-          <Grid.Column width={3}>
+          <Grid.Column width={2}>
             <Battle />
           </Grid.Column>
           <Grid.Column width={13}>
