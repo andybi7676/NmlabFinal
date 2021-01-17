@@ -6,6 +6,7 @@ import { Grid, Menu, Button, Segment } from 'semantic-ui-react';
 
 const GameScene = () => {
   const [ newUser, setNewUser ] = useState(true);
+  const [ reload, setReload ] = useState(false);
   const state = useContext(ContractContext);
 
   useEffect(() => {
@@ -29,6 +30,10 @@ const GameScene = () => {
     console.log(create);
     setNewUser(false);
   }
+
+  const makeReload = () => {
+    setReload(!reload);
+  }
   
 
   return newUser ?
@@ -37,14 +42,14 @@ const GameScene = () => {
     </Button>
     :
     <>
-      <Navbar />
+      <Navbar makeReload={makeReload} />
       <Grid celled style={{margin: "0"}}>
         <Grid.Row>
           <Grid.Column width={3}>
             <Battle />
           </Grid.Column>
           <Grid.Column width={13}>
-            <Map />
+            <Map reload={reload} />
           </Grid.Column>
         </Grid.Row>
       </Grid>

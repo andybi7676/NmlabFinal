@@ -89,12 +89,17 @@ contract BuildingFactory is Account {
             return remainingTime;
         }
     }
+
+    function getUpgradingId(address _owner) public view returns(uint) {
+        return ownerBuildingId[_owner];
+    }
     
     function updateBuild(address _owner) public returns(uint){
         uint buildingID = ownerBuildingId[_owner];
         if (ownerStartBuildTime[_owner] != 0 && now >= ownerStartBuildTime[_owner] + buildings[buildingID].level * buildTimeNeed) {
             buildings[buildingID].level = buildings[buildingID].level.add(1);
             ownerStartBuildTime[_owner] = 0;
+            ownerBuildingId[_owner] = 0;
             return 0;
         }
         else {

@@ -6,9 +6,8 @@ import Building from "./Building"
 import ModalContent from './ModalContent'
 
 
-const Cell = ({ key, x, y, cellState, updateCellState }) => {
-  const state = useContext(ContractContext);
-  const [ open, setOpen ] = useState(cellState.open);
+const Cell = ({ idx , x, y, initialized,  cellState, updateCellState }) => {
+  const [ open, setOpen ] = useState(false);
   const [ CellStyle, setCellStyle ] = useState({
     left: `${x}px`,
     top: `${y}px`,
@@ -33,27 +32,12 @@ const Cell = ({ key, x, y, cellState, updateCellState }) => {
     });
   }
 
-  useEffect(() => {
-    if (cellState.type !== "unload") return;
-    const { contract, contractB, accounts } = state;
-    const load = async () => {
-      const building = await contract.methods.getBuildingByOwner(accounts[0], x, y).call({from: accounts[0]});
-      const loadIndex = building[0];
-      const loadType = building[1];
-      const newState = { ...cellState, type: loadType, index: loadIndex };
-      updateCellState(key, newState);
-    }
-    if(contract !== null && accounts.length > 0) {
-      load();
-    }
-  }, [state]);
-
   return <>
     <div className="Cell_1x1" tabIndex="1" id={`Cell-${x}*${y}`} style={CellStyle} 
       onMouseEnter={() => onHover()} 
       onMouseLeave={() => unHover()} 
       onClick={() => setOpen(true)}>
-      <Building type={cellState.type}/>
+      <Building type={initialized? cellState.type : "undefined"} />
     </div>
 
     <Modal
@@ -62,7 +46,7 @@ const Cell = ({ key, x, y, cellState, updateCellState }) => {
       onOpen={() => setOpen(true)}
       open={open}
     >
-      <ModalContent x={x} y={y} type={type} makeReload={makeReload} index={index} />
+      <ModalContent idx={idx} x={x} y={y} cellState={initialized? cellState : null} type={initialized? cellState.type : "undefined"} index={initialized? cellState.index : "undefined"} updateCellState={updateCellState} />
       <Modal.Actions>
         <Button onClick={() => setOpen(false)} color='red'>
           <Icon name='close' /> close

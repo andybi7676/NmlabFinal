@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Modal, Grid, Icon, Segment, Header, Menu, Pagination } from 'semantic-ui-react';
 import { Page } from './index'
 
-const None = ({ x, y, contract, contractB, account, makeReload }) => {
+const None = ({ idx, x, y, contract, account, updateCellState }) => {
   const [ page, setPage ] = useState(0);
 
   const build = async (buildType) => {
@@ -41,8 +41,11 @@ const None = ({ x, y, contract, contractB, account, makeReload }) => {
           console.alert("invalid buildingType");
           break;
     }
-    console.log(newBuildingId);
-    makeReload();
+    const building = await contract.methods.getBuildingByOwner(account, x, y).call({from: account});
+    const loadIndex = parseInt(building[0]);
+    const loadType = building[1];
+    const newState = { type: loadType, index:loadIndex, others: null }
+    updateCellState(idx, newState);
     const buildingLen = await contract.methods.getBuildingsLen().call({from: account});
     console.log(buildingLen);
   }

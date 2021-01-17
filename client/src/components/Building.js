@@ -4,6 +4,7 @@ import { Dropdown, Button, Icon, Image } from 'semantic-ui-react';
 import farm from '../images/farm.png';
 
 const Building = ({ type , level  }) => {
+  // console.log(`building type: ${type}`);
 
   const height = 100;
   if(type === "None") {

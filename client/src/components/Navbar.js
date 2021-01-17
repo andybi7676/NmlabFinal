@@ -4,7 +4,7 @@ import { Menu, Icon, Button } from 'semantic-ui-react';
 import "../styles/Navbar.css";
 
 
-const Navbar = () => { 
+const Navbar = ({ makeReload }) => { 
   const state = useContext(ContractContext);
   const [ resources, setResources ] = useState({
     wood: "--",
@@ -41,6 +41,7 @@ const Navbar = () => {
       return;
     };
     updateResource();
+    makeReload();
   }, [updateTimes, state]);
 
   return (

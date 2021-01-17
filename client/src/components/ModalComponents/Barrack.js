@@ -1,84 +1,61 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Button, Modal, Grid, Icon, Segment, Header, Input, Progress } from 'semantic-ui-react';
 
-const Barrack = ({ x, y, index, contract, account, makeReload }) => {
+const Barrack = ({ idx, x, y, cellState, contract, account, updateCellState }) => {
   const [ level, setLevel ] = useState(1);
-  const [ produceAmount, setProduceAmount ] = useState(1);
-  const [ soldierAmount, setSoldierAmount ] = useState(-1);
-  const [ produceProgress, setProduceProgress ] = useState(0);
-  const [ producing, setProducing ] = useState(false);
-  const timeIncrementPercentage = 0;
+  const [ soldierAmount, setSoldierAmount ] = useState(0);
+  const [ upgrading, setUpgrading ] = useState(false);
+  const [ upgradeProgress, setUpgradeProgress ] = useState(0);
+  const [ produceAmount, setProduceAmount ] = useState(0);
 
-  const getLevel = async() => {
-    const building = await contract.methods.getBuildingById(index).call({from: account});
+  const getLevel = async () => {
+    const building = await contract.methods.getBuildingById(cellState.index).call({from: account});
     const exist = building[0];
     const lv = building[2];
     if(exist) {
+      console.log(`level: ${lv}`);
       setLevel(lv);
     }
   }
 
-  const getSoldier = async() => {
-    const getSM = await contract.methods.getSoldierAmount(account).call({from: account});
-    setSoldierAmount(getSM);
+  const getSoldierAmount = async () => {
+    const getSA = await contract.methods.getSoldierAmount(account).call({from: account});
+    setSoldierAmount(getSA);
   }
 
-  const upgradeBuilding = async () => {
+  const startUpgrade = async () => {
     if(!contract || !account) return;
-    await contract.methods.startBuild(account, x, y).send({from: account});
-    const remainTime = await contract.methods.getRemainingTime(account).call({from: account});
-    console.log(remainTime);
-    setTimeout(async () => {
-      console.log("update building");
-      await contract.methods.updateBuild(account).send({from: account});
-      getLevel();
-      makeReload();
-    }, 1000*(remainTime));
-  }
-
-  const producingProgress = (remainTime) => {
-    const percentage = remainTime[0]/remainTime[1] *100;
-    console.log(percentage);
-    if(percentage > 100) {
-      setProduceProgress(100);
+    const upgradingId = parseInt( await contract.methods.getUpgradingId(account).call({from: account}) );
+    if(upgradingId !== 0 && upgradingId !== cellState.index) {
+      alert("something else are upgrading now!");
       return;
     }
-    setProduceProgress(percentage);
-    setTimeout(() => {
-      checkProduce()
-    }, 1000);
+    await contract.methods.startBuild(account, x, y).send({from: account});
+    const remainTime = parseInt( await contract.methods.getRemainingTime(account).call({from: account}) );
+    console.log("upgrade remainTime: ", remainTime);
+    const newState = { ...cellState, upgrade: [0, remainTime] };
+    updateCellState(idx, newState);
   }
 
-  const createSoldier = async () => {
-    if(!contract || !account) return;
-    if(produceAmount <= 0) return;
-    await contract.methods.startCreateSoldier(produceAmount).send({from: account});
-    setProducing(true);
-  }
-
-  const checkProduce = async () => {
-    const remainTime = await contract.methods.getCreateSoldierTime().call({from: account});
-    console.log(remainTime)
-    const produceTime = parseInt(remainTime[1]);
-    if(produceTime == 0) return;
-    const startTime = parseInt(remainTime[0]);
-    // console.log(remainTime.map((val)=>parseInt(val)));
-    if(!producing) setProducing(true);
-    producingProgress([startTime, produceTime]);
-  }
-
-  const handleInputChange = (e, { value }) => {
-    e.preventDefault();
-    setProduceAmount(value);
+  const confirmUpgrade = async () => {
+    await contract.methods.updateBuild(account).send({from: account});
+    const newState = { ...cellState, upgrade: false };
+    updateCellState(idx, newState);
   }
 
   useEffect(() => {
     if(contract && account) {
       getLevel();
-      getSoldier();
-      checkProduce();
+      getSoldierAmount();
     }
-  }, [contract, account, index, producing])
+    setUpgrading(cellState.upgrade?true:false);
+    setUpgradeProgress(cellState.upgrade? cellState.upgrade[1]===0 ? 100 : cellState.upgrade[0]/cellState.upgrade[1]*100>100?100:cellState.upgrade[0]/cellState.upgrade[1]*100  : 0);
+  }, [contract, account, cellState])
+
+  const handleInputChange = (e, { value }) => {
+    e.preventDefault();
+    setProduceAmount(value);
+  }
 
   return <>
     <Modal.Content image>
@@ -113,7 +90,7 @@ const Barrack = ({ x, y, index, contract, account, makeReload }) => {
                 <div>soldier amount: {produceAmount}</div>
                 <Input
                   min={0}
-                  max={10}
+                  max={10*level}
                   onChange={handleInputChange}
                   type='range'
                   value={produceAmount}
@@ -134,9 +111,22 @@ const Barrack = ({ x, y, index, contract, account, makeReload }) => {
               <p>Produce Soldier  </p>
               <p>Soldier amount: {soldierAmount}</p>
             </Segment>
-            <div style={{textAlign: 'center'}}>
-              <Button primary onClick={() => upgradeBuilding()} >upgrade</Button>
-            </div>
+            {
+              upgrading?
+              <>
+              <Header as='h4'>
+                Upgrade progress
+              </Header>
+              <Progress percent={upgradeProgress} indicating />
+              <div style={{textAlign: 'center'}}>
+                <Button primary disabled={upgradeProgress !== 100} onClick={() => confirmUpgrade()} >comfirm upgrade</Button>
+              </div>
+              </>
+              :
+              <div style={{textAlign: 'center'}}>
+                <Button primary onClick={() => startUpgrade()} >start upgrade</Button>
+              </div>
+            }
           </Grid.Column>
         </Grid.Row>
       </Grid>
