@@ -16,11 +16,15 @@ const BattleMenu = ({ myIdx, userAmount, back}) => {
     setBattleList([ ...newBattleList]);
   }, [myIdx, userAmount]);
 
+  const select = (idx) => {
+    setSelectedIdx(idx);
+  }
+
   return <>
     <Menu vertical fluid>
       {
         battleList.map((idx) => {
-          return <BattleMenuItem key={idx} userIdx={idx} active={selectedIdx === idx} select={setSelectedIdx}/>
+          return <BattleMenuItem key={idx} myIdx={myIdx} userIdx={idx} active={selectedIdx === idx} select={select}/>
         })
       }
     </Menu>

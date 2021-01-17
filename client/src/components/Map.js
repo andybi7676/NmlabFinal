@@ -17,6 +17,7 @@ const Map = () => {
   const [ initialized, setInitialized ] = useState(false);
   const [ cellStateList, setCellStateList ] = useState([]);
   const [ upgradingIdx, setUpgradingIdx ] = useState(0);
+  const [ producingIdx, setProducingIdx ] = useState(0);
   const [ reload, setReload ] = useState(false);
   // console.log(width, height);
 
@@ -31,6 +32,30 @@ const Map = () => {
     }
     if(newState.upgrade === false) {
       setUpgradingIdx(0);
+    }
+    if(newState.produce) {
+      if(producingIdx === 0) {
+        setProducingIdx(idx);
+      }
+    }
+    if(newState.produce === false) {
+      setProducingIdx(0);
+    }
+  }
+
+  const updateProduce = () => {
+    if(producingIdx === 0) {
+      return;
+    }
+    const [ a, b ] = cellStateList[producingIdx].produce;
+    console.log(a, b);
+    if(a < b) {
+      const newState = { ...cellStateList[producingIdx], produce: [a + 3, b] };
+      updateCellState(producingIdx, newState);
+      console.log("produe progress")
+    }
+    else {
+      setProducingIdx(0);
     }
   }
 
@@ -51,9 +76,7 @@ const Map = () => {
   }
 
   const callUpdateProgress = () => {
-    if(upgradingIdx === 0) {
-      return;
-    }
+    updateProduce();
     updateProgress();
     setReload(!reload);
   }
@@ -61,20 +84,31 @@ const Map = () => {
   useEffect(() => {
     const { contract, accounts } = state;
     let upgIdx = 0;
+    let pdIdx = 0;
     const load = async (x, y, idx, upgradingId) => {
       const building = await contract.methods.getBuildingByOwner(accounts[0], x, y).call({from: accounts[0]});
       const loadIndex = parseInt(building[0]);
       const loadType = building[1];
+      let newState = { type: loadType, index: loadIndex };
+      if(loadType === "Barrack") {
+        const getCreateTime = await contract.methods.getCreateSoldierTime().call({from: accounts[0]});
+        const nowStartPeriod = parseInt( getCreateTime[0] );
+        const createTimeNeed = parseInt( getCreateTime[1] );
+        if(createTimeNeed != 0) {
+          pdIdx = idx;
+          newState = { ...newState, produce: [ nowStartPeriod, createTimeNeed ] };
+        }
+      }
       if(loadIndex === upgradingId && upgradingId !== 0) {
         const remainTime = parseInt( await contract.methods.getRemainingTime(accounts[0]).call({from: accounts[0]}) );
         if(remainTime < 1000) {
           console.log(idx);
           upgIdx = idx;
-          return { type: loadType, index: loadIndex, upgrade: [0, remainTime] }
+          return { ...newState, upgrade: [0, remainTime] }
         }
         upgIdx = 0;
       }
-      return { type: loadType, index: loadIndex };
+      return newState;
     }
     const init = async () => {
       const upgradingId = parseInt( await contract.methods.getUpgradingId(accounts[0]).call({from: accounts[0]}) );
@@ -86,6 +120,7 @@ const Map = () => {
         setCellStateList(result);
         setInitialized(true);
         setUpgradingIdx(upgIdx);
+        setProducingIdx(pdIdx);
         // updateProgress();
       })
     }
@@ -94,12 +129,12 @@ const Map = () => {
         init();
       }
     }
-    if(upgradingIdx !== 0) {
+    if(upgradingIdx !== 0 || producingIdx !== 0) {
       setTimeout(() => {
         callUpdateProgress();
       }, 3000);
     }
-  }, [state, upgradingIdx, reload])
+  }, [state, upgradingIdx, producingIdx, reload])
 
   const boundStyle = {left: -(imgWidth - width)/2, right: (imgWidth - width)/2, top: -(imgHeight - height), bottom: 0 };
   

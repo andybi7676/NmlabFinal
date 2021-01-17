@@ -19,11 +19,6 @@ contract Account {
     uint IdDigits = 16;
     uint IdModulus = 10 ** IdDigits;
 
-    function _generateRandomId(string memory _str) private view returns (uint) {
-        uint rand = uint(keccak256(abi.encodePacked(_str)));
-        return rand % IdModulus;
-    }
-
     function checkUserAddress() public view returns(bool) {
         if(ownerCastleCount[msg.sender] > 0) return true;
         return false;

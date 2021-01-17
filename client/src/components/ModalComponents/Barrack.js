@@ -7,6 +7,8 @@ const Barrack = ({ idx, x, y, cellState, contract, account, updateCellState }) =
   const [ upgrading, setUpgrading ] = useState(false);
   const [ upgradeProgress, setUpgradeProgress ] = useState(0);
   const [ produceAmount, setProduceAmount ] = useState(0);
+  const [ producing, setProducing ] = useState(false);
+  const [ produceProgress, setProduceProgress ] = useState(0);
 
   const getLevel = async () => {
     const building = await contract.methods.getBuildingById(cellState.index).call({from: account});
@@ -42,12 +44,42 @@ const Barrack = ({ idx, x, y, cellState, contract, account, updateCellState }) =
     const newState = { ...cellState, upgrade: false };
     updateCellState(idx, newState);
   }
+  
+  const startCreateSoldier = async () => {
+    await contract.methods.startCreateSoldier(produceAmount).send({from: account});
+    const getCreateTime = await contract.methods.getCreateSoldierTime().call({from: account});
+    const nowStartPeriod = parseInt( getCreateTime[0] );
+    const createTimeNeed = parseInt( getCreateTime[1] );
+    console.log("createSoldier: ", nowStartPeriod, createTimeNeed);
+    if(createTimeNeed == 0) {
+      alert("Not enough resource!");
+      return;
+    }
+    const newState = { ...cellState, produce: [ nowStartPeriod, createTimeNeed ]};
+    updateCellState(idx, newState);
+    // const remainTime = parseInt( await contract.methods.)
+  }
+  
+  const confirmCreateSoldier = async () => {
+    await contract.methods.updateCreateSoldier(account).send({from: account});
+    const getCreateTime = await contract.methods.getCreateSoldierTime().call({from: account});
+    const nowStartPeriod = parseInt( getCreateTime[0] );
+    const createTimeNeed = parseInt( getCreateTime[1] );
+    if(createTimeNeed != 0) {
+      alert("confirm failed");
+      return;
+    }
+    const newState = { ...cellState, produce: false };
+    updateCellState(idx, newState);
+  }
 
   useEffect(() => {
     if(contract && account) {
       getLevel();
       getSoldierAmount();
     }
+    setProducing(cellState.produce?true:false);
+    setProduceProgress(cellState.produce? cellState.produce[1]===0 ? 100 : cellState.produce[0]/cellState.produce[1]*100>100?100:cellState.produce[0]/cellState.produce[1]*100  : 0)
     setUpgrading(cellState.upgrade?true:false);
     setUpgradeProgress(cellState.upgrade? cellState.upgrade[1]===0 ? 100 : cellState.upgrade[0]/cellState.upgrade[1]*100>100?100:cellState.upgrade[0]/cellState.upgrade[1]*100  : 0);
   }, [contract, account, cellState])
@@ -76,7 +108,7 @@ const Barrack = ({ idx, x, y, cellState, contract, account, updateCellState }) =
               </Header>
               <Progress percent={produceProgress} indicating />
               <div style={{textAlign: 'center'}}>
-                <Button disabled={produceProgress !== 100} primary >
+                <Button disabled={produceProgress !== 100} primary onClick={() => confirmCreateSoldier()} >
                   confirm soldier
                 </Button>
               </div>
@@ -97,7 +129,7 @@ const Barrack = ({ idx, x, y, cellState, contract, account, updateCellState }) =
                 />
               </Segment>
               <div style={{textAlign: 'center'}}>
-                <Button primary onClick={() => createSoldier()} >produce</Button>
+                <Button primary disabled={upgrading} onClick={() => startCreateSoldier()} >produce</Button>
               </div>
               </>
             }
@@ -124,7 +156,7 @@ const Barrack = ({ idx, x, y, cellState, contract, account, updateCellState }) =
               </>
               :
               <div style={{textAlign: 'center'}}>
-                <Button primary onClick={() => startUpgrade()} >start upgrade</Button>
+                <Button primary disabled={producing} onClick={() => startUpgrade()} >start upgrade</Button>
               </div>
             }
           </Grid.Column>

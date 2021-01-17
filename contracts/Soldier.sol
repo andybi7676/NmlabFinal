@@ -38,4 +38,44 @@ contract Soldier is Account {
         return numOfSoldier[_owner];
     }
 
+    function _fight(address myCastle, address attackedCastle) internal{
+        address winner;
+        address loser;
+
+        if (power[myCastle] > power[attackedCastle]){
+            winner = myCastle;
+            loser = attackedCastle;
+        }
+        else {
+            winner = attackedCastle;
+            loser = myCastle;
+        }
+        
+        foodOwnerCount[winner] = foodOwnerCount[winner] + (foodOwnerCount[loser] * 4/5);
+        // woodOwnerCount[winner] = woodOwnerCount[winner] + (woodOwnerCount[loser] * 4/5);
+        // ironOwnerCount[winner] = ironOwnerCount[winner] + (ironOwnerCount[loser] * 4/5);
+        // stoneOwnerCount[winner] = stoneOwnerCount[winner] + (stoneOwnerCount[loser] * 4/5);
+        coinOwnerCount[winner] = coinOwnerCount[winner] + (coinOwnerCount[loser] * 4/5);
+        foodOwnerCount[loser] = foodOwnerCount[loser] - (foodOwnerCount[loser] * 4/5);
+        // woodOwnerCount[loser] = woodOwnerCount[loser] - (woodOwnerCount[loser] * 4/5);
+        // ironOwnerCount[loser] = ironOwnerCount[loser] - (ironOwnerCount[loser] * 4/5);
+        // stoneOwnerCount[loser] = stoneOwnerCount[loser] - (stoneOwnerCount[loser] * 4/5);
+        coinOwnerCount[loser] = coinOwnerCount[loser] - (coinOwnerCount[loser] * 4/5);
+
+        uint winnerPowerLose = power[loser] / 2;
+
+        numOfSoldier[winner] = (power[winner] - winnerPowerLose) / levelOfSoldier[winner];
+
+        numOfSoldier[loser] = numOfSoldier[loser] * 4 / 5;
+
+        _updatePower(winner);
+        _updatePower(loser);
+    }
+
+    function attack(uint _ownerId, uint _attackedCastleId) public {
+        require(msg.sender == castleToOwner[_ownerId]);
+        address myCastle = castleToOwner[_ownerId];
+        address attackedCastle = castleToOwner[_attackedCastleId];
+        _fight(myCastle, attackedCastle);
+    }
 }

@@ -7,6 +7,7 @@ import Building from './Building'
 import Battle from './Battle'
 import BattleMenu from './BattleMenu';
 import BattleMenuItem from './BattleMenuItem';
+import BattleModal from './BattleModal';
 
 export {
   Navbar,
@@ -18,4 +19,5 @@ export {
   Building,
   BattleMenu,
   BattleMenuItem,
+  BattleModal,
 } 
