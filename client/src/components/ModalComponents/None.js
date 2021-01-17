@@ -2,12 +2,17 @@ import React, { useState } from 'react';
 import { Button, Modal, Grid, Icon, Segment, Header, Menu, Pagination } from 'semantic-ui-react';
 import { Page } from './index'
 
-const None = ({ idx, x, y, contract, account, updateCellState }) => {
+const None = ({ upgradingIdx, idx, x, y, contract, account, updateCellState }) => {
   const [ page, setPage ] = useState(0);
 
   const build = async (buildType) => {
     if(!contract || !account) {
       alert("please wait a minute and try again");
+      return;
+    }
+    if(upgradingIdx !== 0) {
+      console.log(upgradingIdx);
+      alert("something upgrading!");
       return;
     }
     let newBuildingId;

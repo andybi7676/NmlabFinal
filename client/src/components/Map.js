@@ -75,9 +75,45 @@ const Map = () => {
     }
   }
 
+  const updateBothProgress = () => {
+    const [ a, b ] = cellStateList[upgradingIdx].upgrade;
+    const [ c, d ] = cellStateList[producingIdx].produce;
+    const upgradeNewState = { ...cellStateList[upgradingIdx], upgrade: [a + 3, b] }
+    const produceNewState = { ...cellStateList[producingIdx], produce: [c + 3, d] }
+    if(a < b) {
+      if(c < d) {
+        if(upgradingIdx > producingIdx) {
+          setCellStateList([ ...cellStateList.slice(0, producingIdx), produceNewState, ...cellStateList.slice(producingIdx+1, upgradingIdx), upgradeNewState, ...cellStateList.slice(upgradingIdx+1)]);
+        }
+        else {
+          setCellStateList([ ...cellStateList.slice(0, upgradingIdx), upgradeNewState, ...cellStateList.slice(upgradingIdx+1, producingIdx), produceNewState, ...cellStateList.slice(producingIdx+1)]);
+        }
+      }
+      else {
+        setCellStateList([ ...cellStateList.slice(0, upgradingIdx), upgradeNewState, ...cellStateList.slice(upgradingIdx+1)]);
+        setProducingIdx(0);
+      }
+    }
+    else {
+      if(c < d) {
+        setCellStateList([ ...cellStateList.slice(0, producingIdx), produceNewState, ...cellStateList.slice(producingIdx+1)]);
+        setUpgradingIdx(0);
+      }
+      else {
+        setProducingIdx(0);
+        setUpgradingIdx(0);
+      }
+    }
+  }
+
   const callUpdateProgress = () => {
-    updateProduce();
-    updateProgress();
+    if(upgradingIdx !== 0 && producingIdx !== 0) {
+      updateBothProgress();
+    }
+    else {
+      updateProduce();
+      updateProgress();
+    }
     setReload(!reload);
   }
 
@@ -150,7 +186,7 @@ const Map = () => {
             {
               cellAry.map((xy_list, idx) => {
                 const [x, y] = xy_list;
-                return <Cell key={idx} idx={idx} x={x} y={y} initialized={initialized} cellState={cellStateList[idx]} updateCellState={updateCellState} />
+                return <Cell key={idx} upgradingIdx={upgradingIdx} idx={idx} x={x} y={y} initialized={initialized} cellState={cellStateList[idx]} updateCellState={updateCellState} />
               })
             }
           </div>

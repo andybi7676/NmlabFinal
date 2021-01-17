@@ -1,9 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { ContractContext } from '../App';
-import { Menu, Dropdown, Icon, Modal, Button } from 'semantic-ui-react';
+import { Menu, Icon, Modal, Button } from 'semantic-ui-react';
 import { BattleModal } from './index';
 
-const BattleMenuItem = ({ userIdx, myIdx, active, select }) => {
+const BattleMenuItem = ({ userIdx, myIdx, active }) => {
   const state = useContext(ContractContext);
   const { contract, accounts } = state;
   const [ myPower, setMyPower ] = useState(-1);
@@ -14,10 +14,10 @@ const BattleMenuItem = ({ userIdx, myIdx, active, select }) => {
     const { contract, accounts } = state;
     if(!contract || accounts.length < 1) return;
     const getUP = async () => {
-      const pow = await contract.methods.getUserPower(userIdx).call({from:accounts[0]});
+      // const pow = await contract.methods.getUserPower(userIdx).call({from:accounts[0]});
       const myPow = await contract.methods.getUserPower(myIdx).call({from:accounts[0]});
-      console.log(pow);
-      setUserPower(pow);
+      // console.log(pow);
+      // setUserPower(pow);
       setMyPower(myPow);
     }
     getUP();

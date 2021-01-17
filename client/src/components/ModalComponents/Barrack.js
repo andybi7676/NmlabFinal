@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Modal, Grid, Icon, Segment, Header, Input, Progress } from 'semantic-ui-react';
 
 const Barrack = ({ idx, x, y, cellState, contract, account, updateCellState }) => {

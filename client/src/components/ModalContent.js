@@ -1,10 +1,10 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { ContractContext } from "../App";
 import { Modal } from 'semantic-ui-react';
 import "../styles/Map.css";
 import { None, Farm, Sawmill, Mine, Manor, Quarry, Barrack } from './ModalComponents/index';
 
-const ModalContent = ({ idx, x, y, cellState, index, updateCellState }) => {
+const ModalContent = ({ upgradingIdx, idx, x, y, cellState, index, updateCellState }) => {
   const state = useContext(ContractContext);
   if(!cellState) return <></>
   const { type } = cellState;
@@ -12,7 +12,7 @@ const ModalContent = ({ idx, x, y, cellState, index, updateCellState }) => {
   if(type === "None") {
     return <>
       <Modal.Header>Create Buiding</Modal.Header>
-      {state.accounts && state.contract ? <None idx={idx} cellState={cellState} x={x} y={y} contract={state.contract} account={state.accounts[0]} updateCellState={updateCellState} /> : null}
+      {state.accounts && state.contract ? <None upgradingIdx={upgradingIdx} idx={idx} cellState={cellState} x={x} y={y} contract={state.contract} account={state.accounts[0]} updateCellState={updateCellState} /> : null}
     </>
   }
   if(type === "Farm") {

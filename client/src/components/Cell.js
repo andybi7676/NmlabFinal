@@ -1,12 +1,11 @@
-import React, { useState, useContext, useEffect } from "react";
-import { ContractContext } from "../App";
+import React, { useState } from "react";
 import "../styles/Cell.css";
-import { Modal, Button, Icon, Grid } from 'semantic-ui-react'
+import { Modal, Button, Icon } from 'semantic-ui-react'
 import Building from "./Building"
 import ModalContent from './ModalContent'
 
 
-const Cell = ({ idx , x, y, initialized,  cellState, updateCellState }) => {
+const Cell = ({ upgradingIdx, idx , x, y, initialized,  cellState, updateCellState }) => {
   const [ open, setOpen ] = useState(false);
   const [ CellStyle, setCellStyle ] = useState({
     left: `${x}px`,
@@ -46,7 +45,7 @@ const Cell = ({ idx , x, y, initialized,  cellState, updateCellState }) => {
       onOpen={() => setOpen(true)}
       open={open}
     >
-      <ModalContent idx={idx} x={x} y={y} cellState={initialized? cellState : null} type={initialized? cellState.type : "undefined"} index={initialized? cellState.index : "undefined"} updateCellState={updateCellState} />
+      <ModalContent upgradingIdx={upgradingIdx} idx={idx} x={x} y={y} cellState={initialized? cellState : null} type={initialized? cellState.type : "undefined"} index={initialized? cellState.index : "undefined"} updateCellState={updateCellState} />
       <Modal.Actions>
         <Button onClick={() => setOpen(false)} color='red'>
           <Icon name='close' /> close

@@ -1,5 +1,5 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Menu, Button, Modal } from 'semantic-ui-react';
+import React, { useState, useEffect } from 'react';
+import { Menu, Button } from 'semantic-ui-react';
 import { BattleMenuItem } from './index';
 
 const BattleMenu = ({ myIdx, userAmount, back}) => {
@@ -24,7 +24,7 @@ const BattleMenu = ({ myIdx, userAmount, back}) => {
     <Menu vertical fluid>
       {
         battleList.map((idx) => {
-          return <BattleMenuItem key={idx} myIdx={myIdx} userIdx={idx} active={selectedIdx === idx} select={select}/>
+          return <BattleMenuItem key={idx} myIdx={myIdx} userIdx={idx} active={selectedIdx === idx} />
         })
       }
     </Menu>
