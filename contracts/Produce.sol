@@ -6,8 +6,10 @@ import "./Mine.sol";
 import "./Farm.sol";
 import "./Manor.sol";
 import "./Sawmill.sol";
+import "./Soldier.sol";
+import "./Barrack.sol";
 
-contract Produce is QuarryFactory, MineFactory, FarmFactory, ManorFactory, SawmillFactory {
+contract Produce is QuarryFactory, MineFactory, FarmFactory, ManorFactory, SawmillFactory, Barrack {
 
     function updateProduce(address _owner) public {
         _updateProduceCoin(_owner);

@@ -58,7 +58,7 @@ const Quarry = ({ x, y, index, contract, account, makeReload }) => {
               <Icon name='hand rock' style={{ color: 'gray' }}/>
             </Header>
             <Segment padded color='grey'>
-              <p>produce stone</p>
+              <p>produce stone  `</p>
             </Segment>
             <div style={{textAlign: 'center'}}>
               <Button primary onClick={() => upgradeBuilding()} >upgrade</Button>

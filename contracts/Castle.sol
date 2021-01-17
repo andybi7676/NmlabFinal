@@ -9,6 +9,7 @@ contract CastleFactory is BuildingFactory {
     
     function createCastle(uint _x, uint _y) public {
         _createBuilding(msg.sender, "Castle", _x, _y);
+        _initializeKingdom(msg.sender);
         castleLevel[msg.sender] = 1;
     }
 

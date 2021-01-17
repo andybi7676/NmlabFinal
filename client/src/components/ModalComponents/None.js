@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Button, Modal, Grid, Icon, Segment, Header } from 'semantic-ui-react';
+import { Button, Modal, Grid, Icon, Segment, Header, Menu, Pagination } from 'semantic-ui-react';
+import { Page } from './index'
 
-const None = ({ x, y, contract, account, makeReload }) => {
+const None = ({ x, y, contract, contractB, account, makeReload }) => {
+  const [ page, setPage ] = useState(0);
 
   const build = async (buildType) => {
     if(!contract || !account) {
@@ -9,7 +11,8 @@ const None = ({ x, y, contract, account, makeReload }) => {
       return;
     }
     let newBuildingId;
-    const { createSawmill, createFarm, createMine, createQuarry, createManor } = contract.methods;
+    const { createSawmill, createFarm, createMine, createQuarry, createManor, createBarrack } = contract.methods;
+    // const {  } = contractB.methods;
     switch (buildType) {
       case "Sawmill":
         newBuildingId = await createSawmill(x, y).send({from: account});
@@ -26,6 +29,14 @@ const None = ({ x, y, contract, account, makeReload }) => {
       case "Manor":
         newBuildingId = await createManor(x, y).send({from: account});
         break;
+      case "Barrack":
+        const haveBuilding = await contract.methods.getSpecificBuildingByOwner(account, "Barrack").call({from:account});
+        if(haveBuilding.length > 0) {
+          alert("Already have Barrack!");
+          break;
+        }
+        newBuildingId = await createBarrack(x, y).send({from: account});
+        break;
         default:
           console.alert("invalid buildingType");
           break;
@@ -39,52 +50,22 @@ const None = ({ x, y, contract, account, makeReload }) => {
   return <>
     <Modal.Content image>
       <Grid columns='equal' divided inverted padded>
+        <Grid.Row centered>
+          <Menu pointing secondary>
+            <Menu.Item
+              name='basic'
+              active={page === 0}
+              onClick={()=>setPage(0)}
+            />
+            <Menu.Item
+              name='advance'
+              active={page === 1}
+              onClick={()=>setPage(1)}
+            />
+          </Menu>
+        </Grid.Row>
         <Grid.Row>
-          <Grid.Column>
-            <Segment placeholder>
-              <Header icon>
-                Sawmill
-                <Icon name='tree' style={{ color: 'green' }} />
-              </Header>
-              <Button primary onClick={() => build("Sawmill")}>Build</Button>
-            </Segment>
-          </Grid.Column>
-          <Grid.Column>
-            <Segment placeholder>
-              <Header icon>
-                Farm
-                <Icon name='food' style={{ color: 'gainsboro' }} />
-              </Header>
-              <Button primary onClick={() => build("Farm")}>Build</Button>
-            </Segment>
-          </Grid.Column>
-          <Grid.Column>
-            <Segment placeholder>
-              <Header icon>
-                Mine
-                <Icon name='lock' style={{ color: 'black' }} />
-              </Header>
-              <Button primary onClick={() => build("Mine")}>Build</Button>
-            </Segment>
-          </Grid.Column>
-          <Grid.Column>
-            <Segment placeholder>
-              <Header icon>
-                Quarry
-                <Icon name='hand rock' style={{ color: 'gray' }} />
-              </Header>
-              <Button primary onClick={() => build("Quarry")}>Build</Button>
-            </Segment>
-          </Grid.Column>
-          <Grid.Column>
-            <Segment placeholder>
-              <Header icon>
-                Manor
-                <Icon name='bitcoin' style={{ color: 'gold' }} />
-              </Header>
-              <Button primary onClick={() => build("Manor")}>Build</Button>
-            </Segment>
-          </Grid.Column>
+          <Page page={page} build={build}/>
         </Grid.Row>
       </Grid>
     </Modal.Content>

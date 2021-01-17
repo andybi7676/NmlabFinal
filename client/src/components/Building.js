@@ -10,7 +10,7 @@ const Building = ({ type , level  }) => {
     
   }
   if(type === "Farm") {
-    return <Image src={farm} style={{transform: "rotate(-45deg)", zIndex: "3", height: `${188}%`, width:`${263}%` ,maxWidth: "500%", position: "relative", top: "1vh", left:"-8.5vh"}}/>
+    return <Image src={farm} style={{transform: "rotate(-45deg)", zIndex: "3", height: `${200}%`, width:`${200*426/336}%` ,maxWidth: "500%", position: "relative", top: "5vh", left:"-20vh", visibility: "visible"}}/>
     // return <Icon name='food'  size='huge' style={{transform: "rotate(-45deg)", color: "gainsboro"}} />
   }
   if(type === "Mine") {
@@ -24,6 +24,12 @@ const Building = ({ type , level  }) => {
   }
   if(type === "Sawmill") {
     return <Icon name="tree"  size='huge' style={{transform: "rotate(-45deg)", color: "green" }} />
+  }
+  if(type === "Castle") {
+    return <Icon name="chess rook"  size='huge' style={{transform: "rotate(-45deg)", color: "black" }} />
+  }
+  if(type === "Barrack") {
+    return <Icon name="shield alternate"  size='huge' style={{transform: "rotate(-45deg)", color: "black" }} />
   }
   else return<></>;
 }

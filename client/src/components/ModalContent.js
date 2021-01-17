@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { ContractContext } from "../App";
 import { Modal } from 'semantic-ui-react';
 import "../styles/Map.css";
-import { None, Farm, Sawmill, Mine, Manor, Quarry } from './ModalComponents/index';
+import { None, Farm, Sawmill, Mine, Manor, Quarry, Barrack } from './ModalComponents/index';
 
 const ModalContent = ({ x, y, type, index, makeReload }) => {
   const state = useContext(ContractContext);
@@ -10,7 +10,7 @@ const ModalContent = ({ x, y, type, index, makeReload }) => {
   if(type === "None") {
     return <>
       <Modal.Header>Create Buiding</Modal.Header>
-      {state.accounts && state.contract ? <None x={x} y={y} contract={state.contract} account={state.accounts[0]} makeReload={makeReload} /> : null}
+      {state.accounts && state.contract ? <None x={x} y={y} contract={state.contract} contractB={state.contractB} account={state.accounts[0]} makeReload={makeReload} /> : null}
     </>
   }
   if(type === "Farm") {
@@ -41,6 +41,12 @@ const ModalContent = ({ x, y, type, index, makeReload }) => {
     return <>
       <Modal.Header>Manor</Modal.Header>
       {state.accounts && state.contract ? <Quarry x={x} y={y} index={index} contract={state.contract} account={state.accounts[0]} makeReload={makeReload} /> : null}
+    </>
+  }
+  if(type === "Barrack") {
+    return <>
+      <Modal.Header>Manor</Modal.Header>
+      {state.accounts && state.contract ? <Barrack x={x} y={y} index={index} contract={state.contract} account={state.accounts[0]} makeReload={makeReload} /> : null}
     </>
   }
 

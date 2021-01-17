@@ -15,6 +15,7 @@
   transform: rotate(45deg);
   cursor: pointer;
   overflow: visible;
+  /* visibility: hidden; */
   z-index: 1;
 }
 
