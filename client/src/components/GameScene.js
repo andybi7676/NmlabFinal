@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useContext} from 'react';
 import { Map, Battle, Navbar } from './index';
 import { ContractContext } from '../App'
-import { Grid, Button } from 'semantic-ui-react';
+import { Grid, Button, Image } from 'semantic-ui-react';
+import castlepng from '../images/castle.png';
 
 
 const GameScene = () => {
@@ -37,9 +38,16 @@ const GameScene = () => {
   
 
   return newUser ?
+    <>
+    <br/>
+    <br/>
+    <br/>
+    <Image src={castlepng} size="medium" />
+    <br/>
     <Button primary size="massive" onClick={() => initializeKingdom()}>
       Initialize your kingdom!
     </Button>
+    </>
     :
     <>
       <Navbar makeReload={makeReload} />
