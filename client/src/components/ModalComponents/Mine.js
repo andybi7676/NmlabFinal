@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Modal, Grid, Icon, Segment, Header, Progress } from 'semantic-ui-react';
+import { Button, Modal, Grid, Icon, Segment, Header, Progress, Image } from 'semantic-ui-react';
+import ironpng from '../../images/iron_noback.png';
 
 const PRODUCTION_RATE = 10;
 
@@ -67,7 +68,8 @@ const Mine = ({ idx, x, y, cellState, contract, account, updateCellState }) => {
           <Grid.Column>
             <Header icon>
               Mine
-              <Icon name='lock' style={{ color: 'black' }}/>
+              <br/>
+              <Image src={ironpng} size='massive' spaced />
             </Header>
             <Segment padded color='black'>
               <p>produce iron</p>

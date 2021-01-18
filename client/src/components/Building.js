@@ -30,7 +30,7 @@ const Building = ({ type  }) => {
     // return <Icon name="hand rock"  size='huge' style={} />
   }
   if(type === "Sawmill") {
-    return <Image src={sawmill} />
+    return <Image src={sawmill} style={{opacity:"1"}} />
     // return <Icon name="tree"  size='huge' style={} />
   }
   if(type === "Castle") {

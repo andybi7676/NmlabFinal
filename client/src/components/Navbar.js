@@ -1,7 +1,12 @@
 import React, { useEffect, useState, useContext } from "react";
 import { ContractContext } from "../App";
-import { Menu, Icon, Button } from 'semantic-ui-react';
+import { Menu, Icon, Button, Image } from 'semantic-ui-react';
 import "../styles/Navbar.css";
+import woodpng from '../images/wood_noback.png';
+import ironpng from '../images/iron_noback.png';
+import stonepng from '../images/stone_noback.png';
+import coinpng from '../images/coin_noback.png';
+import foodpng from '../images/food_noback.png';
 
 
 const Navbar = ({ makeReload }) => { 
@@ -56,11 +61,27 @@ const Navbar = ({ makeReload }) => {
               </Button.Content>
             </Button>
             {/* <Button circular icon='sync' onClick={() => setUpdateTimes(updateTimes+1)} inverted color='blue'/> */}
-            <Button active color='blue' inverted size='mini' icon="tree" style={{ color: 'green' }} content={resources.wood}/>
-            <Button active color='blue' inverted size='mini' icon="food" style={{ color: 'gainsboro' }} content={resources.food}/>
-            <Button active color='blue' inverted size='mini' icon="lock" style={{ color: 'black' }} content={resources.iron}/>
-            <Button active color='blue' inverted size='mini' icon="bitcoin" style={{ color: 'gold' }} content={resources.coin}/>
-            <Button active color='blue' inverted size='mini' icon="hand rock" style={{ color: 'gray' }} content={resources.stone}/>
+            {/* <Button active color='blue' inverted size='mini' icon="tree" style={{ color: 'green' }} > */}
+            <Button active color='blue' inverted size='mini' style={{ color: 'SaddleBrown' }}>
+              <Image src={woodpng} size='mini' spaced />
+              {resources.wood}
+            </Button>
+            <Button active color='blue' inverted size='mini' style={{ color: 'Khaki' }}>
+              <Image src={foodpng} size='mini' spaced />
+              {resources.food}
+            </Button>
+            <Button active color='blue' inverted size='mini' style={{ color: 'black' }}>
+              <Image src={ironpng} size='mini' spaced />
+              {resources.iron}
+            </Button>
+            <Button active color='blue' inverted size='mini' style={{ color: 'Olive' }}>
+              <Image src={coinpng} size='mini' spaced />
+              {resources.coin}
+            </Button>
+            <Button active color='blue' inverted size='mini' style={{ color: 'gray' }}>
+              <Image src={stonepng} size='mini' spaced />
+              {resources.stone}
+            </Button>
           </Button.Group>
           {/* <Menu.Item
             name='wood'

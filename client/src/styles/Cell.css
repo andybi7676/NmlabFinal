@@ -9,11 +9,12 @@
   width: 60px;
   height: 60px;
   font-size: 12px;
-  transition: 0.5s ease-out;
+  /* transition: 0.5s ease-out; */
   /* color: #6CC; */
   position: absolute;
   cursor: pointer;
   overflow: visible;
+  background: rgba(255,255,255,0.05);
   /* visibility: hidden; */
   z-index: 1;
 }
@@ -23,6 +24,6 @@
 }
 
 .Cell_1x1:hover {
-  background-color: #999;
+  background: rgba(255,255,255,0);
   color: #fff;
 }

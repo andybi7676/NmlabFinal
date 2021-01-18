@@ -50,11 +50,11 @@ contract Account {
         castleToOwner[kingdomAmount] = _owner;
         kingdomAmount++;
         ownerCastleCount[_owner]++;
-        foodOwnerCount[_owner] = 1000;
-        woodOwnerCount[_owner] = 1000;
-        stoneOwnerCount[_owner] = 1000;
-        ironOwnerCount[_owner] = 1000;
-        coinOwnerCount[_owner] = 1000;
+        foodOwnerCount[_owner] = 10000;
+        woodOwnerCount[_owner] = 10000;
+        stoneOwnerCount[_owner] = 10000;
+        ironOwnerCount[_owner] = 10000;
+        coinOwnerCount[_owner] = 10000;
         power[_owner] = 0;
     }
 

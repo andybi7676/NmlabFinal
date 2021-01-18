@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Modal, Grid, Icon, Segment, Header, Progress} from 'semantic-ui-react';
+import { Button, Modal, Grid, Icon, Segment, Header, Progress, Image } from 'semantic-ui-react';
+import woodpng from '../../images/wood_noback.png';
 
 const PRODUCTION_RATE = 10;
 
@@ -67,7 +68,8 @@ const Sawmill = ({ idx, x, y, cellState, contract, account, updateCellState }) =
           <Grid.Column>
             <Header icon>
               Sawmill
-              <Icon name='tree' style={{ color: 'green' }}/>
+              <br/>
+              <Image size='massive' src={woodpng} />
             </Header>
             <Segment padded color='green'>
               <p>produce wood</p>

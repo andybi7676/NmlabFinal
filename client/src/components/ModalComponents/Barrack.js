@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Modal, Grid, Icon, Segment, Header, Input, Progress } from 'semantic-ui-react';
+import { Button, Modal, Grid, Icon, Segment, Header, Input, Progress, Image } from 'semantic-ui-react';
+import soldierpng from '../../images/soldier_noback.png';
 
 const Barrack = ({ idx, x, y, cellState, contract, account, updateCellState }) => {
   const [ level, setLevel ] = useState(1);
@@ -137,7 +138,8 @@ const Barrack = ({ idx, x, y, cellState, contract, account, updateCellState }) =
           <Grid.Column>
             <Header icon>
               Barrack
-              <Icon name='shield alternate' style={{ color: 'black' }}/>
+              <br/>
+              <Image size='massive' src={soldierpng} />
             </Header>
             <Segment padded color='black'>
               <p>Produce Soldier  </p>

@@ -3,13 +3,13 @@ import { ContractContext } from "../App";
 import { useMeasure } from 'react-use'
 import Cell from './Cell';
 import "../styles/Map.css";
-import gameBackground from '../images/main_map_true.png';
+import gameBackground from '../images/main_map_small.png';
 import Draggable from 'react-draggable';
 
 
-const imgWidth = 1666;
-const imgHeight = 1000;
-const cellAry = [[10, 10], [130, 50], [380, 270], [280, 100], [40, 300], [650, 300], [800, 600], [1000, 300], [900, 100], [700, 400]];
+const imgWidth = 1700;//1803
+const imgHeight = 1086;//1086
+const cellAry = [[188, 278], [360, 364], [801, 163], [1092, 166], [1384, 364], [1500, 250], [1597, 428], [1500, 723], [1560, 903], [1264, 813], [842, 663], [131, 708], [310, 843], [554, 940]];
 
 const Map = () => {
   const state = useContext(ContractContext);

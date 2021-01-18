@@ -1,5 +1,11 @@
 import React from 'react';
-import { Button, Modal, Grid, Icon, Segment, Header, Menu, Pagination } from 'semantic-ui-react';
+import { Button, Grid, Icon, Segment, Header, Image } from 'semantic-ui-react';
+import woodpng from '../../images/wood_noback.png';
+import ironpng from '../../images/iron_noback.png';
+import stonepng from '../../images/stone_noback.png';
+import coinpng from '../../images/coin_noback.png';
+import foodpng from '../../images/food_noback.png';
+import soldierpng from '../../images/soldier_noback.png';
 
 const Page = ({ page, build }) => {
   if(page === 0) {
@@ -8,7 +14,8 @@ const Page = ({ page, build }) => {
         <Segment placeholder>
           <Header icon>
             Sawmill
-            <Icon name='tree' style={{ color: 'green' }} />
+            <br/>
+            <Image size='massive' src={woodpng} />
           </Header>
           <Button primary onClick={() => build("Sawmill")}>Build</Button>
         </Segment>
@@ -17,7 +24,8 @@ const Page = ({ page, build }) => {
         <Segment placeholder>
           <Header icon>
             Farm
-            <Icon name='food' style={{ color: 'gainsboro' }} />
+            <br/>
+            <Image size='massive' src={foodpng} />
           </Header>
           <Button primary onClick={() => build("Farm")}>Build</Button>
         </Segment>
@@ -26,16 +34,20 @@ const Page = ({ page, build }) => {
         <Segment placeholder>
           <Header icon>
             Mine
-            <Icon name='lock' style={{ color: 'black' }} />
-          </Header>
+            <br/>
+            <Image size='massive' src={ironpng} />
+            <br/>
+            <br/>
           <Button primary onClick={() => build("Mine")}>Build</Button>
+          </Header>
         </Segment>
       </Grid.Column>
       <Grid.Column>
         <Segment placeholder>
           <Header icon>
             Quarry
-            <Icon name='hand rock' style={{ color: 'gray' }} />
+            <br/>
+            <Image size='massive' src={stonepng} />
           </Header>
           <Button primary onClick={() => build("Quarry")}>Build</Button>
         </Segment>
@@ -44,7 +56,8 @@ const Page = ({ page, build }) => {
         <Segment placeholder>
           <Header icon>
             Manor
-            <Icon name='bitcoin' style={{ color: 'gold' }} />
+            <br/>
+            <Image size='massive' src={coinpng} />
           </Header>
           <Button primary onClick={() => build("Manor")}>Build</Button>
         </Segment>
@@ -57,7 +70,8 @@ const Page = ({ page, build }) => {
         <Segment placeholder>
           <Header icon>
             Barrack
-            <Icon name='shield alternate' style={{ color: 'black' }} />
+            <br/>
+            <Image size='massive' src={soldierpng} />
           </Header>
           <Button primary onClick={() => build("Barrack")}>Build</Button>
         </Segment>

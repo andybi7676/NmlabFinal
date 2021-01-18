@@ -10,29 +10,25 @@ const Cell = ({ upgradingIdx, idx , x, y, initialized,  cellState, updateCellSta
   const [ CellStyle, setCellStyle ] = useState({
     left: `${x}px`,
     top: `${y}px`,
-    color: "#6CC",
-    backgroundColor: "#FFF",
+    // color: "#6CC",
+    backgroundColor: "rgba(255,255,255,0.05)",
   });
 
   const onHover = () => {
     setCellStyle({
       left: `${x}px`,
       top: `${y}px`,
-      "backgroundColor": "#999",
-      color: "#fff",
     });
   }
   const unHover = () => {
     setCellStyle({
       left: `${x}px`,
       top: `${y}px`,
-      color: "#6CC",
-      backgroundColor: "#FFF",
     });
   }
 
   return <>
-    <div className="Cell_1x1" tabIndex="1" id={`Cell-${x}*${y}`} style={CellStyle} 
+    <div className="Cell_1x1" tabIndex="1" id={`Cell-${x}*${y}`} style={CellStyle}  
       onMouseEnter={() => onHover()} 
       onMouseLeave={() => unHover()} 
       onClick={() => setOpen(true)}>

@@ -45,7 +45,7 @@ const GameScene = () => {
       <Navbar makeReload={makeReload} />
       <Grid celled style={{margin: "0"}}>
         <Grid.Row>
-          <Grid.Column width={2}>
+          <Grid.Column width={3}>
             <Battle />
           </Grid.Column>
           <Grid.Column width={13}>

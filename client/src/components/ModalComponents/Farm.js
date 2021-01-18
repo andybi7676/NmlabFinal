@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Modal, Grid, Icon, Segment, Header, Progress } from 'semantic-ui-react';
+import { Button, Modal, Grid, Icon, Segment, Header, Progress, Image } from 'semantic-ui-react';
+import foodpng from '../../images/food_noback.png';
 
 const PRODUCTION_RATE = 10;
 
@@ -67,7 +68,8 @@ const Farm = ({ idx, x, y, cellState, contract, account, updateCellState }) => {
           <Grid.Column>
             <Header icon>
               Farm
-              <Icon name='food' style={{ color: 'gainsboro' }}/>
+              <br/>
+              <Image size='massive' src={foodpng} />
             </Header>
             <Segment padded color='grey'>
               <p>produce food</p>

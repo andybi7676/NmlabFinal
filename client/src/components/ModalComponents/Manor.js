@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Modal, Grid, Icon, Segment, Header, Progress } from 'semantic-ui-react';
+import { Button, Modal, Grid, Icon, Segment, Header, Progress, Image } from 'semantic-ui-react';
+import coinpng from '../../images/coin_noback.png';
 
 const PRODUCTION_RATE = 10;
 
@@ -67,7 +68,8 @@ const Manor = ({ idx, x, y, cellState, contract, account, updateCellState }) => 
           <Grid.Column>
             <Header icon>
               Manor
-              <Icon name='bitcoin' style={{ color: 'gold' }}/>
+              <br/>
+              <Image size='massive' src={coinpng} />
             </Header>
             <Segment padded color='yellow'>
               <p>produce coin</p>
