@@ -41,4 +41,4 @@ remember to connect the account to the network
 ```
 after all this, refresh the page, then enjoy the game!
 ## Notice
-If the game looks weird when playing, remember to refresh the page, and everything will be alright.
+If the game looks weird during playing, please remember to refresh the page, and everything will be alright.
