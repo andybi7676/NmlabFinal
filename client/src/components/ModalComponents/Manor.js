@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Modal, Grid, Icon, Segment, Header } from 'semantic-ui-react';
+import { Button, Modal, Grid, Icon, Segment, Header, Progress, Image } from 'semantic-ui-react';
+import coinpng from '../../images/coin_noback.png';
 
 const PRODUCTION_RATE = 10;
 
-const Manor = ({ x, y, index, contract, account, makeReload }) => {
+const Manor = ({ idx, x, y, cellState, contract, account, updateCellState }) => {
   const [ level, setLevel ] = useState(1);
+  const [ upgrading, setUpgrading ] = useState(false);
+  const [ upgradeProgress, setUpgradeProgress ] = useState(0);
+
   const getLevel = async() => {
-    const building = await contract.methods.getBuildingById(index).call({from: account});
+    const building = await contract.methods.getBuildingById(cellState.index).call({from: account});
     const exist = building[0];
     const lv = building[2];
     if(exist) {
@@ -15,24 +19,33 @@ const Manor = ({ x, y, index, contract, account, makeReload }) => {
     }
   }
 
-  const upgradeBuilding = async () => {
+  const startUpgrade = async () => {
     if(!contract || !account) return;
+    const upgradingId = parseInt( await contract.methods.getUpgradingId(account).call({from: account}) );
+    if(upgradingId !== 0 && upgradingId !== cellState.index) {
+      alert("something else are upgrading now!");
+      return;
+    }
     await contract.methods.startBuild(account, x, y).send({from: account});
-    const remainTime = await contract.methods.getRemainingTime(account).call({from: account});
-    console.log(remainTime);
-    setTimeout(async () => {
-      console.log("update building");
-      await contract.methods.updateBuild(account).send({from: account});
-      getLevel();
-      makeReload();
-    }, 1000*(remainTime));
+    const remainTime = parseInt( await contract.methods.getRemainingTime(account).call({from: account}) );
+    console.log("upgrade remainTime: ", remainTime);
+    const newState = { ...cellState, upgrade: [0, remainTime] };
+    updateCellState(idx, newState);
+  }
+
+  const confirmUpgrade = async () => {
+    await contract.methods.updateBuild(account).send({from: account});
+    const newState = { ...cellState, upgrade: false };
+    updateCellState(idx, newState);
   }
 
   useEffect(() => {
     if(contract && account) {
       getLevel()
     }
-  }, [contract, account, index])
+    setUpgrading(cellState.upgrade?true:false);
+    setUpgradeProgress(cellState.upgrade? cellState.upgrade[1]===0 ? 100 : cellState.upgrade[0]/cellState.upgrade[1]*100>100?100:cellState.upgrade[0]/cellState.upgrade[1]*100  : 0);
+  }, [contract, account, cellState])
 
   return <>
     <Modal.Content image>
@@ -55,14 +68,28 @@ const Manor = ({ x, y, index, contract, account, makeReload }) => {
           <Grid.Column>
             <Header icon>
               Manor
-              <Icon name='bitcoin' style={{ color: 'gold' }}/>
+              <br/>
+              <Image size='massive' src={coinpng} />
             </Header>
             <Segment padded color='yellow'>
               <p>produce coin</p>
             </Segment>
-            <div style={{textAlign: 'center'}}>
-              <Button primary onClick={() => upgradeBuilding()} >upgrade</Button>
-            </div>
+            {
+              upgrading?
+              <>
+              <Header as='h4'>
+                Upgrade progress
+              </Header>
+              <Progress percent={upgradeProgress} indicating />
+              <div style={{textAlign: 'center'}}>
+                <Button primary disabled={upgradeProgress !== 100} onClick={() => confirmUpgrade()} >comfirm upgrade</Button>
+              </div>
+              </>
+              :
+              <div style={{textAlign: 'center'}}>
+                <Button primary onClick={() => startUpgrade()} >start upgrade</Button>
+              </div>
+            }
           </Grid.Column>
         </Grid.Row>
       </Grid>

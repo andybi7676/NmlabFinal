@@ -2,8 +2,8 @@
   padding: 0.8em 1em;
   width: 100%;
   background-color: rgb(25, 84, 138);
-  display: flex;
-  flex-direction: row;
+  /* display: flex;
+  flex-direction: row; */
 }
 
 .logo {

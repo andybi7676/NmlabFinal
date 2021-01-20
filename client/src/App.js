@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ProduceContract from "./contracts/Produce.json";
+import BarrackContract from "./contracts/Barrack.json";
 import getWeb3 from "./getWeb3";
 import { Navbar, GameScene } from './components';
 
@@ -10,7 +11,7 @@ import Building from "./components/Building";
 
 export const ContractContext = React.createContext();
 const App = () => {
-  const [ state, setState ] = useState({ storageValue: 0, web3: null, accounts: null, contract: null });
+  const [ state, setState ] = useState({ storageValue: 0, web3: null, accounts: null, contract: null, contractB: null });
   useEffect(() => {
     async function getState() {
       try {
@@ -21,14 +22,19 @@ const App = () => {
         console.log(accounts);
         // Get the contract instance.
         const networkId = await web3.eth.net.getId();
-        const deployedNetwork = ProduceContract.networks[networkId];
-        const instance = new web3.eth.Contract(
+        const deployedNetworkP = ProduceContract.networks[networkId];
+        const instanceP = new web3.eth.Contract(
           ProduceContract.abi,
-          deployedNetwork && deployedNetwork.address,
+          deployedNetworkP && deployedNetworkP.address,
+        );
+        const deployedNetworkB = BarrackContract.networks[networkId];
+        const instanceB = new web3.eth.Contract(
+          BarrackContract.abi,
+          deployedNetworkB && deployedNetworkB.address,
         );
         // Set web3, accounts, and contract to the state, and then proceed with an
         // example of interacting with the contract's methods.
-        setState({ web3, accounts, contract: instance });
+        setState({ web3, accounts, contract: instanceP, contractB: instanceB });
       } catch (error) {
         // Catch any errors for any of the above operations.
         alert(
@@ -45,11 +51,11 @@ const App = () => {
 
   return <>
     {
-      (state.contract && state.accounts)
+      (state.contract && state.contractB && state.accounts.length>0)
       ? 
       <ContractContext.Provider value={state}>
         <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
-          <Navbar />
+          {/* <Navbar /> */}
           <GameScene />
           {/* <Map /> */}
           <br />
