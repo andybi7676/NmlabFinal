@@ -17,7 +17,7 @@ open ganache-cli by using command:
 ```
 ~ $ ganache-cli -l 0xfffffffffff
 ```
-if you want to always use the same chain, type command instead:
+if you want to always use the same chain, type the following command instead:
 ```
 ~ $ ganache-cli -m [MNEMONIC] --db [DB_DIR] -i [NETWORK_ID] -l 0xfffffffffff
 ```
