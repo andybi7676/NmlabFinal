@@ -15,7 +15,11 @@ clone the github page
 ```
 open ganache-cli by using command:
 ```
-~ $ ganache-cli
+~ $ ganache-cli -l 0xfffffffffff
+```
+if you want to always use the same chain, type command instead:
+```
+~ $ ganache-cli -m [MNEMONIC] --db [DB_DIR] -i [NETWORK_ID] -l 0xfffffffffff
 ```
 then do truffle migrate
 ```
